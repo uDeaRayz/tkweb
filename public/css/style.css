@@ -1,0 +1,62 @@
+.subtitle {
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 15px;
+    box-shadow: 1px 1px #e0e0e0;
+}
+
+.add-btn {
+    margin: 5px;
+}
+
+.img-show {
+    width: 350px;
+}
+
+.show-data {
+    margin: 20px;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.sub-title {
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.form-staff {
+    padding: 20px
+}
+
+.form-staff p {
+    font-weight: 700;
+}
+
+.form-staff-margin {
+    margin-bottom: 8px;
+}
+
+.t {
+    font-weight: 700;
+}
+
+.status {
+    width: 100px;
+    padding: 5px;
+}
+
+.img-report {
+    width: 100px;
+}
+
+h2{
+    font-weight: 800;
+}
+.user{
+    font-size: 18px;
+}

@@ -1,0 +1,152 @@
+@extends('layouts.main')
+@section('title', 'ตำแหน่ง')
+
+@section('subtitle')
+<h2 class=" text-primary"><i class="fas fa-award"></i> ตำแหน่ง</h2>
+@endsection
+
+@section('content')
+
+<div class="d-flex flex-row-reverse add-btn">
+    <a class="create-modal btn btn-primary text-white" data-toggle="modal" data-target="#AddData"><i class="fas fa-plus"></i>
+        {{ __('เพิ่มตำแหน่ง') }}</a>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {{-- <div class="table-responsive-md">
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">ลำดับที่</th>
+                        <th class="text-center">ชื่อตำแหน่ง</th>
+                        <th class="text-center">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ csrf_field() }}
+
+                    @foreach ($position as $key => $item)
+                    <tr class="position{{ $item->post_id }}">
+                        <td class="text-center">{{ $no++ }}</td>
+                        <td>{{ $item->post_name }}</td>
+                        <td class="text-center">
+                            <a href="#" class="edit-modal btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"
+                                data-id="{{ $item->post_id }}" data-name="{{ $item->post_name }}" data-target="#EditData"><i
+                                    class="fas fa-pencil-alt"></i></a>
+                            <a class="delete-modal btn btn-danger" data-toggle="del" title="ลบข้อมูล" data-id="{{ $item->post_id }}"
+                                data-name="{{ $item->post_name }}"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div> --}}
+
+
+        <div class="table-responsive text-center">
+            <table class="table table-borderless" id="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                @foreach($data as $item)
+                <tr class="item{{$item->post_id}}">
+                    <td>{{$item->post_id}}</td>
+                    <td>{{$item->post_name}}</td>
+                    <td><button class="edit-modal btn btn-info" data-id="{{$item->post_id}}" data-name="{{$item->post_name}}">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </button>
+                        <button class="delete-modal btn btn-danger" data-id="{{$item->post_id}}" data-name="{{$item->post_name}}">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button></td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="edit"]').tooltip();
+        $('[data-toggle="del"]').tooltip();
+        $("#BtnEdit").click(function () {
+            $("#EditData").modal();
+        });
+    });
+
+    $("#add").click(function () {
+
+        $.ajax({
+            type: 'post',
+            url: '/position/store',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'post_name': $('input[name=post_name]').val()
+            },
+            success: function (data) {
+                if ((data.errors)) {
+                    $('.error').removeClass('hidden');
+                    $('.error').text(data.errors.post_name);
+                } else {
+                    $('.error').remove();
+                    $('#table').append("<tr class='item" + data.post_id + "'><td>" + data.post_id + "</td><td>" + data.post_name + "</td><td><button class='edit-modal btn btn-info' data-id='" + data.post_id + "' data-name='" + data.post_name + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-id='" + data.post_id + "' data-name='" + data.post_name + "'><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+                }
+            },
+        });
+        $('#post_name').val('');
+    });
+
+
+    $(document).on('click', '.edit-modal', function () {
+        $('#footer_action_button').text(" Update");
+        $('#footer_action_button').addClass('glyphicon-check');
+        $('#footer_action_button').removeClass('glyphicon-trash');
+        $('.actionBtn').addClass('btn-success');
+        $('.actionBtn').removeClass('btn-danger');
+        $('.actionBtn').addClass('edit');
+        $('.modal-title').text('Edit');
+        $('.deleteContent').hide();
+        $('.form-horizontal').show();
+        $('#fid').val($(this).data('id'));
+        $('#n').val($(this).data('name'));
+        $('#myModal').modal('show');
+    });
+
+</script>
+@endsection
+
+@section('modal')
+<div class="modal fade" id="create" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __('เพิ่มตำแหน่ง') }}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('position.store') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label class="control-label" for="post_name" style="font-weight:600;">{{ __('ชื่อตำแหน่ง') }}</label>
+                        <input type="text" class="form-control" id="post_name" name="post_name" placeholder="ชื่อตำแหน่ง"
+                            required>
+                        <p class="error text-center alert alert-danger" hidden></p>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="add">{{ __('เพิ่ม') }}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('ยกเลิก') }}</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
