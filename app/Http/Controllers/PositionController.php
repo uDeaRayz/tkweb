@@ -31,7 +31,7 @@ class PositionController extends Controller
         $post = new position;
         $post->post_name = $request->post_name;
         $post->save();
-        return redirect('position');
+        return redirect('position')->with('add', 'เพิ่มตำแหน่งเรียบร้อย');
 
     }
 
@@ -77,6 +77,8 @@ class PositionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $position = position::find($id);
+        $position->delete();
+        return redirect('position')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
 }

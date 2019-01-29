@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Leave;
+use Illuminate\Support\Facades\Validator;
 
 class DayoffTypeController extends Controller
 {
@@ -13,7 +15,8 @@ class DayoffTypeController extends Controller
      */
     public function index()
     {
-        return view('dayoff.dayoff');
+        $dayoff = Leave::all();
+        return view('dayoff.dayoff', compact('dayoff'));
     }
 
     /**
@@ -23,7 +26,7 @@ class DayoffTypeController extends Controller
      */
     public function create()
     {
-        return view('dayoff.dayoff');
+        return view('dayoff.dayoff-type');
 
     }
 
@@ -35,9 +38,16 @@ class DayoffTypeController extends Controller
      */
     public function store(Request $request)
     {
-            $validatedData = $request->validate([
-            'leave_name' => 'required|unique:leave|max:255',
-            'leave_num' => 'required',]);
+        $this->validation($request);
+        Leave::create($request->all());
+        return redirect('dayoff-type')->with('add','เพิ่มตำแหน่งสำเร็จ');
+    } 
+
+    public function validation($request)
+    {
+        return $this->validate($request,[
+            'leave_name' => 'required|unique:leaves',
+        ]);
     }
 
     /**
@@ -82,6 +92,8 @@ class DayoffTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $leave = Leave::find($id);
+        $leave->delete();
+        return redirect('dayoff-type')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
 }

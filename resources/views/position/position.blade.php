@@ -14,27 +14,42 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="table-responsive-md">
+            @if (session('del'))
+            <div class="alert alert-success">
+                <p class="text-success">{{ session('del') }}</p>
+            </div>
+            @endif
+            @if (session('add'))
+            <div class="alert alert-success">
+                <p class="text-success">{{ session('add') }}</p>
+            </div>
+            @endif
             <table class="table" id="table">
                 <thead>
                     <tr>
                         <th class="text-center">ลำดับที่</th>
                         <th class="text-center">ชื่อตำแหน่ง</th>
-                        <th class="text-center">จัดการ</th>
+                        <th class="text-center" colspan="2">จัดการ</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{ csrf_field() }}
-
                     @foreach ($position as $key => $item)
+                    {{ csrf_field() }}
                     <tr class="position{{ $item->post_id }}">
                         <td class="text-center">{{ $key+1 }}</td>
                         <td>{{ $item->post_name }}</td>
-                        <td class="text-center">
-                            <a href="#" class="edit-modal btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"
+                        <td width="20px;">
+                            <button href="#" class="edit-modal btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"
                                 data-id="{{ $item->post_id }}" data-name="{{ $item->post_name }}" data-target="#EditData"><i
-                                    class="fas fa-pencil-alt"></i></a>
-                            <a class="delete-modal btn btn-danger" data-toggle="del" title="ลบข้อมูล" data-id="{{ $item->post_id }}"
-                                data-name="{{ $item->post_name }}"><i class="fas fa-trash-alt"></i></a>
+                                    class="fas fa-pencil-alt"></i></button>
+                        </td>
+                        <td class="text-center" width="20px;">
+                            <form action="{{ route('position.destroy',$item->post_id) }}" method="post" class="delete_form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del" title="ลบข้อมูล"><i
+                                        class="fas fa-trash-alt"></i></button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -52,6 +67,14 @@
     $(document).ready(function () {
         $('[data-toggle="edit"]').tooltip();
         $('[data-toggle="del"]').tooltip();
+
+        $('.delete_form').on('submit', function () {
+            if (confirm("คุณต้องการลบข้อมูลหรือไม่ ?")) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     });
 
 </script>
@@ -70,8 +93,9 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label class="control-label" for="post_name" style="font-weight:600;">{{ __('ชื่อตำแหน่ง') }}</label>
-                        <input type="text" class="form-control" id="post_name" name="post_name" placeholder="ชื่อตำแหน่ง"required>
-                        
+                        <input type="text" class="form-control" id="post_name" name="post_name" placeholder="ชื่อตำแหน่ง"
+                            required>
+
                         <p class="error text-center alert alert-danger" hidden></p>
                     </div>
             </div>
@@ -95,9 +119,9 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label class="control-label" for="post_name" style="font-weight:600;">{{ __('ชื่อตำแหน่ง') }}</label>
-                        <input type="text" class="form-control" id="post_name" name="post_name" value=""
+                        <input type="text" class="form-control" id="post_name" name="post_name" value="" required>
+                        <input type="text" class="form-control" id="post_id" name="post_id" placeholder="ชื่อตำแหน่ง"
                             required>
-                            <input type="text" class="form-control" id="post_id" name="post_id" placeholder="ชื่อตำแหน่ง"required>
                         <p class="error text-center alert alert-danger" hidden></p>
                     </div>
             </div>

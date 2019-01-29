@@ -127,9 +127,9 @@
                             </li>
                             <li class="nav-item text-white">
                                 <a class="nav-link text-white user">
-                                    <i class="fas fa-user-circle"></i> Username
+                                    <i class="fas fa-user-circle"></i> {{ Auth::user()->prename }}{{ Auth::user()->fname }}{{ Auth::user()->lname }}
                                 </a>
-                            </li>
+                            </li> 
                             <li>
                                <h2 class="text-white">|</h2>
                             </li>

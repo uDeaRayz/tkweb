@@ -12,17 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.main');
+    return view('auth/login');
 });
+
+Route::resource('/admin','AdminController');
+Route::resource('/dayoff-type','DayoffTypeController');
 
 Route::get('/allow','DayoffController@allow')->name('allow');
 Route::get('/notallow','DayoffController@notallow')->name('notallow');
 
 Route::resource('/staff','StaffController');
-Route::resource('/admin','AdminController');
+
+
+
+
+
 Route::resource('/trainee','TraineeController');
 Route::resource('/position','PositionController');
-Route::resource('/dayoff-type','DayoffTypeController');
+
 Route::resource('/dayoff','DayoffController');
 Route::resource('/resson','RessonController');
 Route::resource('/attendance','AttenController');

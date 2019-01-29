@@ -3,27 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use DB;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
     public function index()
     {
-        return view('user.admin.admin');
+        $admin = DB::table('users')->where('status', '=', 1)->get();  //แสดงข้อมูลจาก status
+        return view('user.admin.admin', compact('admin'));
     }
 
-    /** 
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function create()
     {
-        return view('user.admin.admin');
+        return view('user.admin.create');
     }
 
     /**
@@ -35,9 +36,18 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $this->validation($request);
-        return $request->all();
- 
-    }
+        // User::create($request->all());
+        User::create([
+            'prename' => $request['prename'],
+            'fname' => $request['fname'],
+            'lname' => $request['lname'],
+            'status' => $request['status'],
+            'level' => $request['level'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+        ]);
+        return redirect('admin')->with('Status','เพิ่มผู้ดูแลสำเร็จ');
+    } 
 
     public function validation($request)
     {
@@ -45,7 +55,7 @@ class AdminController extends Controller
             'prename' => 'required',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
-            'email' => 'required',
+            'email' => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -92,6 +102,8 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $admin = user::find($id);
+        $admin->delete();
+        return redirect('admin')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
 }

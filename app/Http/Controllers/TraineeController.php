@@ -16,7 +16,7 @@ class TraineeController extends Controller
         return view('user.trainee.trainee');
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

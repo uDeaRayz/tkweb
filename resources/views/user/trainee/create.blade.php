@@ -9,7 +9,8 @@
 <div class="d-flex add-btn">
     <a href="{{url('/trainee')}}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
 </div>
-<form action="" method="post" enctype="multipart/form-data">
+<form action="{{ route('trainee.store') }}" method="post" enctype="multipart/form-data">
+    @csrf
     <div class="row justify-content-center show-data">
         <div class="col-md-10 card form-staff">
             <p style="color:black; font-size: 20px; margin-bottom:3px;">

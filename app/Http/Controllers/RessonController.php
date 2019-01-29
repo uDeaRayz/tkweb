@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Leave;
+use App\Resson;
+use DB;
+use Illuminate\Support\Facades\Validator;
 
 class RessonController extends Controller
 {
@@ -13,7 +17,12 @@ class RessonController extends Controller
      */
     public function index()
     {
-        return view('dayoff.resson');
+        $dayoff = Leave::all();
+
+        $resson = DB::table('ressons')
+                    ->leftJoin('leaves', 'ressons.leave_id', '=', 'leaves.leave_id')
+                    ->get();
+        return view('dayoff.resson',compact('dayoff', 'resson'));
     }
 
     /**
@@ -34,7 +43,17 @@ class RessonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validation($request);
+        Resson::create($request->all());
+        return redirect('resson')->with('add','เพิ่มตำแหน่งสำเร็จ');
+    } 
+
+    public function validation($request)
+    {
+        return $this->validate($request,[
+            'resson_name' => 'required',
+            'leave_id' => 'required',
+        ]);
     }
 
     /**
@@ -79,6 +98,8 @@ class RessonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $resson = Resson::find($id);
+        $resson->delete();
+        return redirect('resson')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
 }
