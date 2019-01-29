@@ -42,7 +42,7 @@
                     <td>{{ $item->email }}</td>
                     <td>{{ $item->line }}</td>
                     <td class="text-center">
-                        <a href="{{ route('trainee.show','/',$item->id) }}" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('trainee.show',$item->id) }}" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
                         <a href="{{ route('trainee.edit','/',$item->id) }}" class="btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"><i class="fas fa-pencil-alt"></i></a>
                     </td>
                     <td class="text-center" width="20px;">

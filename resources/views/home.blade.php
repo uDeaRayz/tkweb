@@ -1,23 +1,18 @@
 @extends('layouts.main')
+@section('title', 'Dash board')
+
+@section('subtitle')
+<h2 class=" text-primary"><i class="fas fa-tachometer-alt"></i> {{ __('Dash board') }}</h2>
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+@endsection
 
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('script')
+    <script>
+        $(document).ready(function{
+
+        });
+    </script>
 @endsection

@@ -108,12 +108,11 @@ class TraineeController extends Controller
     {
         $trainee = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('level', '=', 1)->get();
+        ->where('users.id', '=', $id)->get();
 
         $amount = DB::table('users')
         ->join('amount_leaves', 'users.id', '=', 'amount_leaves.user_id')
         ->where('users.id', '=', $id)->get();
-
         return view('user.trainee.show' ,compact('trainee','amount'));
     }
 

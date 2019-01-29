@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('auth/main');
+    return view('auth/login');
 });
 
 Route::resource('/admin','AdminController');
