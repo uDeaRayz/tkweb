@@ -2,7 +2,7 @@
 @section('title', 'เพิ่มนักศึกษาฝึกงาน')
 
 @section('subtitle')
-    <h2 class=" text-primary"><i class="fas fa-user-plus"></i> เพิ่มนักศึกษาฝึกงาน </h2>
+<h2 class=" text-primary"><i class="fas fa-user-plus"></i> เพิ่มนักศึกษาฝึกงาน </h2>
 @endsection
 
 @section('content')
@@ -34,20 +34,36 @@
                         <input type="radio" class="custom-control-input" id="prename3" name="prename" value="นางสาว">
                         <label class="custom-control-label" for="prename3">{{ __('นางสาว') }}</label>
                     </div>
+                    @if ($errors->has('prename'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('prename') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="row form-staff-margin">
                 <div class="col-md-1">
-                    <p class="text-dark">{{ __('ชื่อ') }}</p>
+                    <p class="text-dark {{ $errors->has('fname') ? ' is-invalid' : '' }}">{{ __('ชื่อ') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="fname" class="form-control">
+                    <input type="text" name="fname" class="form-control" value="{{ old('fname') }}" required>
+                    @if ($errors->has('fname'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('fname') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-md-1">
                     <p class="text-dark">{{ __('สกุล') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="lname" class="form-control">
+                    <input type="text" name="lname" class="form-control {{ $errors->has('lname') ? ' is-invalid' : '' }}"
+                        value="{{ old('lname') }}" required>
+                    @if ($errors->has('lname'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('lname') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="row form-staff-margin">
@@ -55,18 +71,24 @@
                     <p class="text-dark">{{ __('ตำแหน่ง') }}</p>
                 </div>
                 <div class="col-md">
-                    <select class="custom-select" name="position">
-                        <option selected>Custom Select Menu</option>
-                        <option value="volvo">Volvo</option>
-                        <option value="fiat">Fiat</option>
-                        <option value="audi">Audi</option>
+                    <select class="custom-select {{ $errors->has('position') ? ' is-invalid' : '' }}" name="position"
+                        required>
+                        <option selected>{{ __('เลือกตำแหน่ง') }}</option>
+                        @foreach ($position as $item)
+                        <option name="{{ $item->post_id }}" value="{{ $item->post_id }}">{{ $item->post_name }}</option>
+                        @endforeach
                     </select>
+                    @if ($errors->has('position'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('position') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-md-2">
                     <p class="text-dark">{{ __('เบอร์โทร') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="phone" class="form-control">
+                    <input type="text" name="phone" class="form-control ">
                 </div>
             </div>
             <div class="row form-staff-margin">
@@ -80,7 +102,13 @@
                     <p class="text-dark">{{ __('Email') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="email" name="email" class="form-control">
+                    <input type="email" name="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
+                        value="{{ old('email') }}" required>
+                    @if ($errors->has('email'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="row form-staff-margin">
@@ -96,7 +124,13 @@
                     <p class="text-dark">{{ __('Password') }}</p>
                 </div>
                 <div class="col-md-5">
-                    <input type="password" id="password" name="line" class="form-control">
+                    <input type="password" id="password" name="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                        required>
+                    @if ($errors->has('password'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -108,67 +142,53 @@
                 </div>
             </div>
         </div>
-    </div>   
-   {{-- ข้อมูลการลา --}}
-   <div class="row justify-content-center show-data">
+    </div>
+    {{-- ข้อมูลการลา --}}
+    <div class="row justify-content-center show-data">
         <div class="col-md-10 card form-staff">
             <p style="color:black; font-size: 20px; margin-bottom:3px;">
                 {{ __('ข้อมูลการลา') }}
             </p>
             <hr>
-            <div class="row form-staff-margin">
-                <div class="col-md card" style="padding: 20px; margin:5px">
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-md-2">
-                            <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
-                        </div>
-                        <div class="col-md">
-                            <input type="text" name="leave_id" class="form-control" value="" readonly>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                            <div class="col-md-4">
-                                <label for="leave_id" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
+            <div class="row">
+                <div class="col-md" style="padding: 0 20px 20px 20px; margin:5px">
+                    <div class="row">
+                        @foreach ($dayoff as $item)
+                        <div class="col-md-6 card" style="padding:20px">
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-md-2">
+                                    <label for="leave" style="font-weight:600;">{{ __('ประเภท') }}</label>
+                                </div>
+                                <div class="col-md">
+                                    <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}">
+                                </div>
                             </div>
-                        <div class="col-md">
-                            <input type="text" name="leave_id" class="form-control" value="">
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-md-4">
+                                    <label for="amount_num" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
+                                </div>
+                                <div class="col-md">
+                                    <input type="text" name="amount_num[]" class="form-control" value="{{ $item->leave_num }}">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md card" style="padding: 20px; margin:5px">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
-                        </div>
-                        <div class="col-md">
-                            <input type="text" name="leave_id" class="form-control" value="" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="leave_id" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
-                        </div>
-                        <div class="col-md">
-                            <input type="text" name="leave_id" class="form-control" value="">
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
-
-
+    </div>
     <input type="hidden" name="status" value="2">
-    <input type="hidden" name="level" value="3">
+    <input type="hidden" name="level" value="1">
     <div class="text-center form-staff-margin" style="margin-bottom:30px;">
         <button class="btn btn-primary">{{ __('บันทึก') }}</button>
-        <a href="{{ url('/staff') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>
+        <a href="{{ route('trainee.index') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>
     </div>
 </form>
 @endsection
 
 @section('script')
-    <script>
+<script>
 
-    </script>
+</script>
 @endsection

@@ -15,11 +15,9 @@ class CreateAmountLeavesTable extends Migration
     {
         Schema::create('amount_leaves', function (Blueprint $table) {
             $table->increments('amount_id');
-            $table->unsignedInteger('leave_id');
             $table->unsignedInteger('user_id');
+            $table->string('leave_name');
             $table->integer('amount_num');
-            $table->foreign('leave_id')->references('leave_id')->on('leaves');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
