@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="d-flex add-btn">
-    <a href="{{url('/trainee')}}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('trainee.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
 </div>
 <form action="{{ route('trainee.store') }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -23,15 +23,15 @@
                 </div>
                 <div class="col-md">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename1" name="prename" value="นาย">
+                        <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1">
                         <label class="custom-control-label" for="prename1">{{ __('นาย') }}</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename2" name="prename" value="นาง">
+                        <input type="radio" class="custom-control-input" id="prename2" name="prename" value="2">
                         <label class="custom-control-label" for="prename2">{{ __('นาง') }}</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename3" name="prename" value="นางสาว">
+                        <input type="radio" class="custom-control-input" id="prename3" name="prename" value="3">
                         <label class="custom-control-label" for="prename3">{{ __('นางสาว') }}</label>
                     </div>
                     @if ($errors->has('prename'))

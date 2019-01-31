@@ -10,6 +10,11 @@
     <a href="{{ route('trainee.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ __('เพิ่มนักศึกษาฝึกงาน') }}</a>
 </div>
 <div class="table-responsive-md">
+        @if (session('update'))
+            <div class="alert alert-info">
+                <p class="text-success">{{ session('update') }}</p>
+            </div>
+        @endif
         @if (session('add'))
             <div class="alert alert-success">
                 <p class="text-success">{{ session('add') }}</p>
@@ -36,14 +41,25 @@
             @foreach ($trainee as $key => $item)
                 <tr>
                     <td class="text-center">{{ $key + 1 }}</td>
-                    <td>{{ $item->prename }}{{ $item->fname }} {{ $item->lname }}</td>
+                    <td>
+                        @if($item->prename == 1)
+                            {{ "นาย" }}
+                        @endif
+                        @if($item->prename == 2)
+                            {{ "นาง" }}
+                        @endif
+                        @if($item->prename == 3)
+                            {{ "นางสาว" }}
+                        @endif
+                            {{ $item->fname }} {{ $item->lname }}
+                        </td>
                     <td>{{ $item->post_name }}</td>
                     <td>{{ $item->phone }}</td>
                     <td>{{ $item->email }}</td>
                     <td>{{ $item->line }}</td>
                     <td class="text-center">
                         <a href="{{ route('trainee.show',$item->id) }}" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
-                        <a href="{{ route('trainee.edit','/',$item->id) }}" class="btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{ route('trainee.edit',$item->id) }}" class="btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"><i class="fas fa-pencil-alt"></i></a>
                     </td>
                     <td class="text-center" width="20px;">
                         <form action="{{ route('trainee.destroy',$item->id) }}" method="post" class="delete_form">

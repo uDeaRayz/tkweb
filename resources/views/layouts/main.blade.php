@@ -127,7 +127,11 @@
                             </li>
                             <li class="nav-item text-white">
                                 <a class="nav-link text-white user">
-                                    <i class="fas fa-user-circle"></i> {{ Auth::user()->prename }}{{ Auth::user()->fname }}{{ Auth::user()->lname }}
+                                    <i class="fas fa-user-circle"></i>
+                                    @if(Auth::user()->prename == 1) {{ __('นาย') }}@endif
+                                    @if(Auth::user()->prename == 2) {{ __('นาง') }}@endif
+                                    @if(Auth::user()->prename == 3) {{ __('นางสาว') }}@endif
+                                    {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                                 </a>
                             </li> 
                             <li>

@@ -46,11 +46,21 @@ class TraineeController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'prename' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'position' => 'required',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6',
+            'img' => 'nullable',
+        ]);
 
+        
+            
         $path = $request->file('img')->store('public/img');
         $sub = str_replace("public","storage" , $path);
-        
-        $this->validation($request);
+            
         $trainee =  User::create([
             'prename' => $request['prename'],
             'fname' => $request['fname'],
@@ -72,7 +82,7 @@ class TraineeController extends Controller
 				if($value != "")
 				{     
                     $data = AmountLeave::create([
-                        'leave_name' => $value,
+                     'leave_name' => $value,
                         'amount_num' => $request->amount_num[$key],
                         'user_id' => $trainee->id,
                     ]);                   
@@ -81,22 +91,10 @@ class TraineeController extends Controller
         }
 
         
-        return redirect('trainee')->with('add','เพิ่มตำแหน่งสำเร็จ');
+        return redirect('trainee')->with('add','เพิ่มนักศึกษางานสำเร็จ');
     } 
 
 
-
-    public function validation($request)
-    {
-        return $this->validate($request,[
-            'prename' => 'required',
-            'fname' => 'required',
-            'lname' => 'required',
-            'position' => 'required',
-            'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|confirmed|min:6',
-        ]);
-    }
 
     /**
      * Display the specified resource.
@@ -124,7 +122,16 @@ class TraineeController extends Controller
      */
     public function edit($id)
     {
+        $position = Position::all();
 
+        $trainee = DB::table('users')
+        ->join('positions', 'users.position', '=', 'positions.post_id')
+        ->where('users.id', '=', $id)->get();
+
+        $amount = DB::table('amount_leaves')
+        ->where('user_id', '=', $id)->get();
+
+        return view('user.trainee.edit' ,compact('trainee','amount','id','position'));
     }
 
     /**
@@ -136,7 +143,52 @@ class TraineeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request, $id);
+        $this->validate($request,[
+            'prename' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'position' => 'required',
+            'phone' => 'required',
+            'line' => 'required',
+            'img' => 'nullable',
+            'email' => 'required|email|max:255',
+        ]);
+        $path = $request->file('img')->store('public/img');
+        $sub = str_replace("public","storage" , $path);
+        DB::table('users')
+            ->where('users.id', $id)
+            ->update([
+                'prename' => $request['prename'],
+                'fname' => $request['fname'],
+                'lname' => $request['lname'],
+                'status' => $request['status'],
+                'level' => $request['level'],
+                'position' => $request['position'], 
+                'phone' => $request['phone'],
+                'line' => $request['line'],
+                'img' => $sub,
+                'email' => $request['email'],
+        ]);
+           
+        if(count($request->leave) > 0)
+		{
+			foreach ($request->leave as $key =>$value ) {
+				if($value != "")
+				{         
+                    DB::table('amount_leaves')
+                        ->where('amount_leaves.user_id', $id)
+                        ->update([
+                            'leave_name' => $value,
+                            'amount_num' => $request->amount_num[$key]
+                    ]);
+
+                }
+			}
+        }
+
+        
+        return redirect('trainee')->with('update','แก้ไขข้อมูลสำเร็จ');
     }
 
     /**

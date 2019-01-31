@@ -2,14 +2,21 @@
 @section('title', 'แก้ไข')
 
 @section('subtitle')
-    <h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ </h2>
+    <h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ
+        @if($staff[0]->prename == 1) {{ __('นาย') }} @endif
+        @if($staff[0]->prename == 2) {{ __('นาง') }} @endif
+        @if($staff[0]->prename == 3) {{ __('นางสาว') }}@endif
+        {{ $staff[0]->fname }} {{ $staff[0]->lname }} 
+    </h2>
 @endsection
 
 @section('content')
 <div class="d-flex add-btn">
-    <a href="{{url('/staff')}}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('staff.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
 </div>
-<form action="" method="post" enctype="multipart/form-data">
+<form action="{{ route('staff.update', $id) }}" method="post" enctype="multipart/form-data">
+    @method('PATCH')
+    @csrf
     <div class="row justify-content-center show-data">
         <div class="col-md-10 card form-staff">
             <div class="row">
@@ -17,18 +24,51 @@
                     <p class="text-dark">คำนำหน้า</p>
                 </div>
                 <div class="col-md">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename1" name="prename" value="นาย">
-                        <label class="custom-control-label" for="prename1">{{ __('นาย') }}</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename2" name="prename" value="นาง">
-                        <label class="custom-control-label" for="prename2">{{ __('นาง') }}</label>
-                    </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" id="prename3" name="prename" value="นางสาว">
-                        <label class="custom-control-label" for="prename3">{{ __('นางสาว') }}</label>
-                    </div>
+                    @if($staff[0]->prename == 1)
+                      
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1" checked>
+                            <label class="custom-control-label" for="prename1">นาย</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename2" name="prename" value="2">
+                            <label class="custom-control-label" for="prename2">นาง</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename3" name="prename" value="3">
+                            <label class="custom-control-label" for="prename3">นางสาว</label>
+                        </div>
+                    @endif
+                    @if($staff[0]->prename == 2)
+                        
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1">
+                            <label class="custom-control-label" for="prename1">นาย</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename2" name="prename" value="2" checked>
+                            <label class="custom-control-label" for="prename2">นาง</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename3" name="prename" value="3">
+                            <label class="custom-control-label" for="prename3">นางสาว</label>
+                        </div>
+                    @endif
+                    @if($staff[0]->prename == 3)
+                        
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1">
+                            <label class="custom-control-label" for="prename1">นาย</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename2" name="prename" value="2">
+                            <label class="custom-control-label" for="prename2">นาง</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="prename3" name="prename" value="3"  checked>
+                            <label class="custom-control-label" for="prename3">นางสาว</label>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -36,13 +76,13 @@
                     <p class="text-dark">{{ __('ชื่อ') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="fname" class="form-control">
+                    <input type="text" name="fname" class="form-control" value="{{ $staff[0]->fname }}">
                 </div>
                 <div class="col-md-1">
                     <p class="text-dark">{{ __('สกุล') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="lname" class="form-control">
+                    <input type="text" name="lname" class="form-control" value="{{ $staff[0]->lname }}">
                 </div>
             </div>
             <div class="row">
@@ -51,17 +91,21 @@
                 </div>
                 <div class="col-md">
                     <select class="custom-select" name="position">
-                        <option selected>Custom Select Menu</option>
-                        <option value="volvo">Volvo</option>
-                        <option value="fiat">Fiat</option>
-                        <option value="audi">Audi</option>
+                        @foreach ($position as $item)
+                            <option value="{{ $staff[0]->position }}"
+                                @if ($item->post_id == $staff[0]->position)
+                                    {{ 'selected' }}
+                                @endif> 
+                            {{ $item->post_name }}</option>
+                        @endforeach
+
                     </select>
                 </div>
                 <div class="col-md-2">
                     <p class="text-dark">{{ __('เบอร์โทร') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="phone" class="form-control">
+                    <input type="text" name="phone" class="form-control" value="{{ $staff[0]->phone }}">
                 </div>
             </div>
             <div class="row">
@@ -69,13 +113,13 @@
                     <p class="text-dark">{{ __('ID Line') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="line" class="form-control">
+                    <input type="text" name="line" class="form-control" value="{{ $staff[0]->line }}">
                 </div>
                 <div class="col-md-2">
                     <p class="text-dark">{{ __('Email') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="email" name="email" class="form-control">
+                    <input type="email" name="email" class="form-control" value="{{ $staff[0]->email }}">
                 </div>
             </div>
             <div class="row">
@@ -83,11 +127,11 @@
                     <p class="text-dark">{{ __('รูปภาพ') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="file" name="img" class="form-control">
+                    <input type="file" name="img" class="form-control" value="{{ $staff[0]->img }}">
                 </div>
             </div>
         </div>
-    </div> 
+    </div>   
     {{-- ข้อมูลการลา --}}
     <div class="row justify-content-center show-data">
             <div class="col-md-10 card form-staff">
@@ -95,54 +139,45 @@
                     {{ __('ข้อมูลการลา') }}
                 </p>
                 <hr>
-                <div class="row form-staff-margin">
-                    <div class="col-md card" style="padding: 20px; margin:5px">
-                        <div class="row" style="margin-bottom:5px;">
-                            <div class="col-md-2">
-                                <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" name="leave_id" class="form-control" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom:5px;">
-                                <div class="col-md-4">
-                                    <label for="leave_id" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
+                <div class="row">
+                    <div class="col-md" style="padding: 0 20px 20px 20px; margin:5px">
+                        <div class="row">
+                            @foreach ($amount as $item)
+                            
+                            <div class="col-md-6 card" style="padding:20px">
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-md-2">
+                                        <label for="leave" style="font-weight:600;">{{ __('ประเภท') }}</label>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}">
+                                    </div>
                                 </div>
-                            <div class="col-md">
-                                <input type="text" name="leave_id" class="form-control" value="">
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-md-4">
+                                        <label for="amount_num" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="text" name="amount_num[]" class="form-control" value="{{ $item->amount_num }}">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md card" style="padding: 20px; margin:5px">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" name="leave_id" class="form-control" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="leave_id" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" name="leave_id" class="form-control" value="">
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>    
     <div class="text-center" style="margin-bottom:40px;">
+        <input type="hidden" name="status" value="2">
+        <input type="hidden" name="level" value="2">
         <button class="btn btn-primary">{{ __('บันทึก') }}</button>
-        <a href="{{ url('/staff') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>
+        <a href="{{ route('staff.index') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>
     </div>
 </form>
 @endsection
 
-@section('script')
+@section('script') 
     <script>
 
     </script>

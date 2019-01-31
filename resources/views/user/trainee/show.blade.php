@@ -2,14 +2,19 @@
 @section('title', 'นักศึกษาฝึกงาน')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ </h2>
+<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ 
+    @if($trainee[0]->prename == 1) {{ __('นาย') }} @endif
+    @if($trainee[0]->prename == 2) {{ __('นาง') }} @endif
+    @if($trainee[0]->prename == 3) {{ __('นางสาว') }}@endif
+    {{ $trainee[0]->fname }} {{ $trainee[0]->lname }} 
+</h2>
 @endsection
 
 @section('content')
 <div class="d-flex add-btn">
     <a href="{{ route('trainee.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
     &nbsp; &nbsp;
-    <a href="" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
+    <a href="{{ route('trainee.edit',$trainee[0]->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
 </div>
 <div class="row justify-content-center show-data">
     <div class="col-md-10">
@@ -24,7 +29,12 @@
                         <tr>
                             <td class="title">ชื่อ-สกุล</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $trainee[0]->prename }}{{ $trainee[0]->fname }} {{ $trainee[0]->lname }}</td>
+                            <td class="sub-title">
+                                @if($trainee[0]->prename == 1) {{ __('นาย') }} @endif
+                                @if($trainee[0]->prename == 2) {{ __('นาง') }} @endif
+                                @if($trainee[0]->prename == 3) {{ __('นางสาว') }}@endif
+                                {{ $trainee[0]->fname }} {{ $trainee[0]->lname }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="title">ตำแหน่ง</td>
@@ -47,7 +57,7 @@
                             <td class="sub-title">{{ $trainee[0]->line }}</td>
                         </tr>
                     </tbody>
-                </table>
+                </table> 
             </div>
         </div>
     </div>
