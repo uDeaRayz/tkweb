@@ -37,48 +37,6 @@
         </table>
     </div>
 </div>
-<div style="border: 2px solid #eeeeee; box-shadow: 1px 1px #e0e0e0; margin:20px;">
-    <h4 style="font-weight:600; margin:20px;">ประวัติบันทึกการลา</h4>
-    <div class="table-responsive-md">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="text-center">ชื่อ-สกุล</th>
-                    <th class="text-center">ประเภทการลา</th>
-                    <th class="text-center">วันที่ลา</th>
-                    <th class="text-center">จำนวนวันลา</th>
-                    <th class="text-center">รายละเอียด</th>
-                    <th class="text-center">สถานะ</th>
-                    <th class="text-center">จัดการ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center">นางสาวสุภาวดี เพ็งจันทร์</td>
-                    <td class="text-center">ลาป่วย</td>
-                    <td class="text-center">2/01/2562 - 3/012562</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center">หมอนัด</td>
-                    <td class="text-center">
-                        <center>
-                            <div class="alert alert-success status text-center">
-                                <i class="fas fa-check-circle"></i> <strong>อนุมัติ!</strong>
-                            </div>
-                            <div class="alert alert-danger status text-center">
-                                <i class="fas fa-ban"></i> <strong>ไม่อนุมัติ!</strong>
-                            </div>
-                        </center>
-                    </td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="view" title="ดูข้อมูล" id="BtnShow"><i
-                                class="fas fa-eye"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 
 @endsection
 

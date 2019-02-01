@@ -29,7 +29,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a href="#" class=" btn article" style="width:200px; font-size:20px; font-weight:700;">Dash board</a>
+                <a href="{{ url('/home') }}" class=" btn article" style="width:200px; font-size:20px; font-weight:700;">Dash board</a>
             </div>
 
             <ul class="list-unstyled components">
