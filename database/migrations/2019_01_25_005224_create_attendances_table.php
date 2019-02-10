@@ -21,10 +21,8 @@ class CreateAttendancesTable extends Migration
             $table->string('atten_status')->nullable;
             $table->string('atten_img')->nullable;
             $table->integer('atten_total')->nullable;
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

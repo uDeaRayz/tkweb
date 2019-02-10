@@ -17,10 +17,8 @@ class CreateDistrictsTable extends Migration
             $table->increments('dist_id');
             $table->string('dist_name')->nullable();
             $table->unsignedInteger('prov_id');
-            $table->foreign('prov_id')->references('prov_id')->on('provinces');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

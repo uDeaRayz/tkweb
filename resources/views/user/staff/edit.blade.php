@@ -3,10 +3,10 @@
 
 @section('subtitle')
     <h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ
-        @if($staff[0]->prename == 1) {{ __('นาย') }} @endif
-        @if($staff[0]->prename == 2) {{ __('นาง') }} @endif
-        @if($staff[0]->prename == 3) {{ __('นางสาว') }}@endif
-        {{ $staff[0]->fname }} {{ $staff[0]->lname }} 
+        @if($staff->prename == 1) {{ __('นาย') }} @endif
+        @if($staff->prename == 2) {{ __('นาง') }} @endif
+        @if($staff->prename == 3) {{ __('นางสาว') }}@endif
+        {{ $staff->fname }} {{ $staff->lname }} 
     </h2>
 @endsection
 
@@ -24,7 +24,7 @@
                     <p class="text-dark">คำนำหน้า</p>
                 </div>
                 <div class="col-md">
-                    @if($staff[0]->prename == 1)
+                    @if($staff->prename == 1)
                       
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1" checked>
@@ -39,7 +39,7 @@
                             <label class="custom-control-label" for="prename3">นางสาว</label>
                         </div>
                     @endif
-                    @if($staff[0]->prename == 2)
+                    @if($staff->prename == 2)
                         
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1">
@@ -54,7 +54,7 @@
                             <label class="custom-control-label" for="prename3">นางสาว</label>
                         </div>
                     @endif
-                    @if($staff[0]->prename == 3)
+                    @if($staff->prename == 3)
                         
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" class="custom-control-input" id="prename1" name="prename" value="1">
@@ -76,13 +76,13 @@
                     <p class="text-dark">{{ __('ชื่อ') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="fname" class="form-control" value="{{ $staff[0]->fname }}">
+                    <input type="text" name="fname" class="form-control" value="{{ $staff->fname }}">
                 </div>
                 <div class="col-md-1">
                     <p class="text-dark">{{ __('สกุล') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="lname" class="form-control" value="{{ $staff[0]->lname }}">
+                    <input type="text" name="lname" class="form-control" value="{{ $staff->lname }}">
                 </div>
             </div>
             <div class="row">
@@ -92,8 +92,8 @@
                 <div class="col-md">
                     <select class="custom-select" name="position">
                         @foreach ($position as $item)
-                            <option value="{{ $staff[0]->position }}"
-                                @if ($item->post_id == $staff[0]->position)
+                            <option value="{{ $staff->position }}"
+                                @if ($item->post_id == $staff->position)
                                     {{ 'selected' }}
                                 @endif> 
                             {{ $item->post_name }}</option>
@@ -105,7 +105,7 @@
                     <p class="text-dark">{{ __('เบอร์โทร') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="phone" class="form-control" value="{{ $staff[0]->phone }}">
+                    <input type="text" name="phone" class="form-control" value="{{ $staff->phone }}">
                 </div>
             </div>
             <div class="row">
@@ -113,21 +113,13 @@
                     <p class="text-dark">{{ __('ID Line') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="line" class="form-control" value="{{ $staff[0]->line }}">
+                    <input type="text" name="line" class="form-control" value="{{ $staff->line }}">
                 </div>
                 <div class="col-md-2">
                     <p class="text-dark">{{ __('Email') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="email" name="email" class="form-control" value="{{ $staff[0]->email }}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p class="text-dark">{{ __('รูปภาพ') }}</p>
-                </div>
-                <div class="col-md">
-                    <input type="file" name="img" class="form-control" value="{{ $staff[0]->img }}">
+                    <input type="email" name="email" class="form-control" value="{{ $staff->email }}">
                 </div>
             </div>
         </div>
@@ -150,7 +142,7 @@
                                         <label for="leave" style="font-weight:600;">{{ __('ประเภท') }}</label>
                                     </div>
                                     <div class="col-md">
-                                        <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}">
+                                        <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-bottom:5px;">

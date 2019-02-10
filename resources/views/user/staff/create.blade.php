@@ -90,6 +90,11 @@
                 <div class="col-md">
                     <input type="text" name="phone" class="form-control ">
                 </div>
+                @if ($errors->has('phone'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('phone') }}</strong>
+                    </span>
+                @endif
             </div>
             <div class="row form-staff-margin">
                 <div class="col-md-2">
@@ -117,28 +122,6 @@
                 </div>
                 <div class="col-md">
                     <input type="file" name="img" class="form-control">
-                </div>
-            </div>
-            <div class="row form-staff-margin">
-                <div class="col-md-3">
-                    <p class="text-dark">{{ __('Password') }}</p>
-                </div>
-                <div class="col-md-5">
-                    <input type="password" id="password" name="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                        required>
-                    @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <p class="text-dark">{{ __('Confirm Password') }}</p>
-                </div>
-                <div class="col-md-5">
-                    <input type="password" id="password-confirm" name="password_confirmation" class="form-control">
                 </div>
             </div>
         </div>

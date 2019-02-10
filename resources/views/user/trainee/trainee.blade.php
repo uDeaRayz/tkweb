@@ -2,7 +2,7 @@
 @section('title', 'นักศึกษาฝึกงาน')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-users"></i> นักศึกษาฝึกงาน</h2>
+<h2 class=" text-primary"><i class="fas fa-users"></i> นักศึกษาฝึกงานทั้งหมด {{ $trainee->count() }} คน</h2>
 @endsection
 
 @section('content')
@@ -73,6 +73,9 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex flex-row-reverse">
+        {{ $trainee->links() }}
+    </div>
 </div>
 @endsection
 

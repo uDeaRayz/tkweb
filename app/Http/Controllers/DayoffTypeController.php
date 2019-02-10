@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Leave;
+use App\Resson;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class DayoffTypeController extends Controller
 {
@@ -15,7 +17,7 @@ class DayoffTypeController extends Controller
      */
     public function index()
     {
-        $dayoff = Leave::all();
+        $dayoff = Leave::all()->paginate(15);
         return view('dayoff.dayoff', compact('dayoff'));
     }
 
@@ -92,8 +94,13 @@ class DayoffTypeController extends Controller
      */
     public function destroy($id)
     {
-        $leave = Leave::find($id);
-        $leave->delete();
+        DB::table('leaves')->where('leaves.leave_id', $id)->delete();
+        DB::table('ressons')->where('ressons.leave_id', $id)->delete();
+
+        // $leave = Leave::find($id);
+        // $resson = Resson::all()->where('user_id',$id);
+        // $resson->delete();
+        // $leave->delete();
         return redirect('dayoff-type')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
 }

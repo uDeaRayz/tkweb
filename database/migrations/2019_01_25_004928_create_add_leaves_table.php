@@ -26,11 +26,8 @@ class CreateAddLeavesTable extends Migration
             $table->string('status',1)->nullable();
             $table->string('resson_id')->nullable();
             $table->string('comment')->nullable();
-            $table->foreign('leave_id')->references('leave_id')->on('leaves');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

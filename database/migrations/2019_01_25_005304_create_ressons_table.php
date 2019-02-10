@@ -17,10 +17,8 @@ class CreateRessonsTable extends Migration
             $table->increments('resson_id');
             $table->string('resson_name');
             $table->unsignedInteger('leave_id');
-            $table->foreign('leave_id')->references('leave_id')->on('leaves');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

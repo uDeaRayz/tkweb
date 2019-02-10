@@ -17,10 +17,8 @@ class CreateSubdistrictsTable extends Migration
             $table->increments('subdist_id');
             $table->string('subdist_name')->nullable();
             $table->unsignedInteger('dist_id');
-            $table->foreign('dist_id')->references('dist_id')->on('districts');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

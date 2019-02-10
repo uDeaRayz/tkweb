@@ -23,13 +23,8 @@ class CreateWorksTable extends Migration
             $table->date('date')->nullable;
             $table->string('detail')->nullable;
             $table->string('img')->nullable;
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('prov_id')->references('prov_id')->on('provinces');
-            $table->foreign('dist_id')->references('dist_id')->on('districts');
-            $table->foreign('subdist_id')->references('subdist_id')->on('subdistricts');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

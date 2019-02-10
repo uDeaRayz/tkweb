@@ -20,7 +20,6 @@ class CreateAmountLeavesTable extends Migration
             $table->integer('amount_num');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

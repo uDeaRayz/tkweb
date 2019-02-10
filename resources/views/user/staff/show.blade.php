@@ -3,10 +3,10 @@
 
 @section('subtitle')
 <h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ 
-    @if($staff[0]->prename == 1) {{ __('นาย') }} @endif
-    @if($staff[0]->prename == 2) {{ __('นาง') }} @endif
-    @if($staff[0]->prename == 3) {{ __('นางสาว') }}@endif
-    {{ $staff[0]->fname }} {{ $staff[0]->lname }} 
+    @if($staff->prename == 1) {{ __('นาย') }} @endif
+    @if($staff->prename == 2) {{ __('นาง') }} @endif
+    @if($staff->prename == 3) {{ __('นางสาว') }}@endif
+    {{ $staff->fname }} {{ $staff->lname }} 
 </h2>
 @endsection
 
@@ -14,14 +14,14 @@
 <div class="d-flex add-btn">
     <a href="{{ route('staff.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
     &nbsp; &nbsp;
-    <a href="{{ route('staff.edit',$staff[0]->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
+    <a href="{{ route('staff.edit',$staff->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
 </div>
 <div class="row justify-content-center show-data">
     <div class="col-md-10">
         
         <div class="row">
             <div class="col-md">
-                <img src="{{ asset($staff[0]->img) }}" class="img-show">
+                <img src="{{ asset($staff->img) }}" class="img-show">
             </div>
             <div class="col-md">
                 <table class="table">
@@ -30,31 +30,31 @@
                             <td class="title">ชื่อ-สกุล</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td class="sub-title">
-                                @if($staff[0]->prename == 1) {{ __('นาย') }} @endif
-                                @if($staff[0]->prename == 2) {{ __('นาง') }} @endif
-                                @if($staff[0]->prename == 3) {{ __('นางสาว') }}@endif
-                                {{ $staff[0]->fname }} {{ $staff[0]->lname }}
+                                @if($staff->prename == 1) {{ __('นาย') }} @endif
+                                @if($staff->prename == 2) {{ __('นาง') }} @endif
+                                @if($staff->prename == 3) {{ __('นางสาว') }}@endif
+                                {{ $staff->fname }} {{ $staff->lname }}
                             </td>
                         </tr>
                         <tr>
                             <td class="title">ตำแหน่ง</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $staff[0]->post_name }}</td>
+                            <td class="sub-title">{{ $staff->post_name }}</td>
                         </tr>
                         <tr>
                             <td class="title">เบอร์โทร</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $staff[0]->phone }}</td>
+                            <td class="sub-title">{{ $staff->phone }}</td>
                         </tr>
                         <tr>
                             <td class="title">Email</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $staff[0]->email }}</td>
+                            <td class="sub-title">{{ $staff->email }}</td>
                         </tr>
                         <tr>
                             <td class="title">ID Line</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $staff[0]->line }}</td>
+                            <td class="sub-title">{{ $staff->line }}</td>
                         </tr>
                     </tbody>
                 </table> 

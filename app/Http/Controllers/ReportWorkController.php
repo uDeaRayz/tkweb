@@ -13,7 +13,7 @@ class ReportWorkController extends Controller
      */
     public function index()
     {
-        return view('report.report-work');
+        return view('report.work');
     }
 
     /**

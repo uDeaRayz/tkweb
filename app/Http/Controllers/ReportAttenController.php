@@ -13,7 +13,7 @@ class ReportAttenController extends Controller
      */
     public function index()
     {
-        return view('report.report-atten');
+        return view('report.atten');
     }
 
     /**

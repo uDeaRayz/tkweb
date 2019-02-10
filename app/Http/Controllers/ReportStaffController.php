@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\User;
+use DB;
 class ReportStaffController extends Controller
 {
     /**
@@ -13,7 +14,12 @@ class ReportStaffController extends Controller
      */
     public function index()
     {
-        return view('report.report-staff');
+        $id = 0;
+        $user = DB::table('users')
+        ->join('positions', 'users.position', '=', 'positions.post_id')
+        ->where('level','>',0 )->paginate(15);
+        return view('report.staff', compact('user','id')); 
+                      
     }
 
     /**
@@ -34,7 +40,25 @@ class ReportStaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->leave == 0) {
+            $id = 0;
+            $user = DB::table('users')
+                    ->join('positions', 'users.position', '=', 'positions.post_id')
+                    ->where('level','>',0 )->paginate(15);
+        }
+        if ($request->leave == 1) {
+            $id = 1;
+            $user = DB::table('users')
+                    ->join('positions', 'users.position', '=', 'positions.post_id')
+                    ->where('level',1)->paginate(15);
+        }
+        if ($request->leave == 2) {
+            $id = 2;
+            $user = DB::table('users')
+                    ->join('positions', 'users.position', '=', 'positions.post_id')
+                    ->where('level',2)->paginate(15);
+        }
+        return view('report.staff', compact('user','id'));
     }
 
     /**

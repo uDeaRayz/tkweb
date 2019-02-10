@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use App\Leave;
 
 class ReportDayoffController extends Controller
 {
@@ -13,7 +15,13 @@ class ReportDayoffController extends Controller
      */
     public function index()
     {
-        return view('report.report-dayoff');
+        $id = 0;
+        $dayoff = Leave::all();
+        $atten = DB::table('add_leaves')
+        ->join('users', 'add_leaves.user_id', '=', 'users.id')
+        ->join('leaves', 'add_leaves.leave_id', '=', 'leaves.leave_id')
+        ->where('leaves.leave_id','>',0 )->paginate(15);
+        return view('report.dayoff', compact('atten','dayoff','id'));
     }
 
     /**
@@ -34,7 +42,22 @@ class ReportDayoffController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dayoff = Leave::all();
+        if ($request->leave == 0) {
+            $id = 0;
+            $atten = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('leaves', 'add_leaves.leave_id', '=', 'leaves.leave_id')
+            ->where('leaves.leave_id','>',0 )->paginate(15);
+        }
+        else{
+            $id = $request->leave;
+            $atten = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('leaves', 'add_leaves.leave_id', '=', 'leaves.leave_id')
+            ->where('leaves.leave_id', $request->leave )->paginate(15);
+        }
+        return view('report.dayoff', compact('atten','dayoff','id'));
     }
 
     /**

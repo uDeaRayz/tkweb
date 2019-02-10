@@ -2,7 +2,7 @@
 @section('title', 'พนักงาน')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-users"></i> พนักงาน</h2>
+<h2 class=" text-primary"><i class="fas fa-users"></i> พนักงานทั้งหมด  {{ $staff->count() }} คน</h2>
 @endsection
 
 @section('content')
@@ -73,6 +73,9 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex flex-row-reverse">
+        {{ $staff->links() }}
+    </div>
 </div>
 @endsection
 

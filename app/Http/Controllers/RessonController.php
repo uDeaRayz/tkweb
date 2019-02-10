@@ -21,7 +21,7 @@ class RessonController extends Controller
 
         $resson = DB::table('ressons')
                     ->leftJoin('leaves', 'ressons.leave_id', '=', 'leaves.leave_id')
-                    ->get();
+                    ->paginate(15);
         return view('dayoff.resson',compact('dayoff', 'resson'));
     }
 

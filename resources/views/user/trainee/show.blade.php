@@ -3,10 +3,10 @@
 
 @section('subtitle')
 <h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ 
-    @if($trainee[0]->prename == 1) {{ __('นาย') }} @endif
-    @if($trainee[0]->prename == 2) {{ __('นาง') }} @endif
-    @if($trainee[0]->prename == 3) {{ __('นางสาว') }}@endif
-    {{ $trainee[0]->fname }} {{ $trainee[0]->lname }} 
+    @if($trainee->prename == 1) {{ __('นาย') }} @endif
+    @if($trainee->prename == 2) {{ __('นาง') }} @endif
+    @if($trainee->prename == 3) {{ __('นางสาว') }}@endif
+    {{ $trainee->fname }} {{ $trainee->lname }} 
 </h2>
 @endsection
 
@@ -14,14 +14,14 @@
 <div class="d-flex add-btn">
     <a href="{{ route('trainee.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
     &nbsp; &nbsp;
-    <a href="{{ route('trainee.edit',$trainee[0]->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
+    <a href="{{ route('trainee.edit',$trainee->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
 </div>
 <div class="row justify-content-center show-data">
     <div class="col-md-10">
         
         <div class="row">
             <div class="col-md">
-                <img src="{{ asset($trainee[0]->img) }}" class="img-show">
+                <img src="{{ asset($trainee->img) }}" class="img-show">
             </div>
             <div class="col-md">
                 <table class="table">
@@ -30,31 +30,31 @@
                             <td class="title">ชื่อ-สกุล</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td class="sub-title">
-                                @if($trainee[0]->prename == 1) {{ __('นาย') }} @endif
-                                @if($trainee[0]->prename == 2) {{ __('นาง') }} @endif
-                                @if($trainee[0]->prename == 3) {{ __('นางสาว') }}@endif
-                                {{ $trainee[0]->fname }} {{ $trainee[0]->lname }}
+                                @if($trainee->prename == 1) {{ __('นาย') }} @endif
+                                @if($trainee->prename == 2) {{ __('นาง') }} @endif
+                                @if($trainee->prename == 3) {{ __('นางสาว') }}@endif
+                                {{ $trainee->fname }} {{ $trainee->lname }}
                             </td>
                         </tr>
                         <tr>
                             <td class="title">ตำแหน่ง</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $trainee[0]->post_name }}</td>
+                            <td class="sub-title">{{ $trainee->post_name }}</td>
                         </tr>
                         <tr>
                             <td class="title">เบอร์โทร</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $trainee[0]->phone }}</td>
+                            <td class="sub-title">{{ $trainee->phone }}</td>
                         </tr>
                         <tr>
                             <td class="title">Email</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $trainee[0]->email }}</td>
+                            <td class="sub-title">{{ $trainee->email }}</td>
                         </tr>
                         <tr>
                             <td class="title">ID Line</td>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="sub-title">{{ $trainee[0]->line }}</td>
+                            <td class="sub-title">{{ $trainee->line }}</td>
                         </tr>
                     </tbody>
                 </table> 
@@ -77,7 +77,7 @@
                                 <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
                             </div>
                             <div class="col-md">
-                                <p style="color: #111;">{{ $item->leave_name }}</p>
+                                <p style="color: #111;" aria-readonly="true">{{ $item->leave_name }}</p>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom:5px;">

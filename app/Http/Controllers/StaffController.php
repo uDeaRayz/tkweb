@@ -22,7 +22,7 @@ class StaffController extends Controller
     {
         $staff = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('level', '=', 2)->get();
+        ->where('level', '=', 2)->paginate(15);
         return view('user.staff.staff', compact('staff'));
     }
 
@@ -51,8 +51,9 @@ class StaffController extends Controller
             'fname' => 'required',
             'lname' => 'required',
             'position' => 'required',
+            'phone' => 'required',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|min:6',
             'img' => 'nullable',
         ]);
 
@@ -72,7 +73,7 @@ class StaffController extends Controller
             'line' => $request['line'],
             'img' => $sub,
             'email' => $request['email'],
-            'password' => Hash::make($request['password'])
+            'password' => Hash::make($request['phone'])
         ]);
 
            
@@ -104,7 +105,7 @@ class StaffController extends Controller
     {
         $staff = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('users.id', '=', $id)->get();
+        ->where('users.id', '=', $id)->first();
 
         $amount = DB::table('users')
         ->join('amount_leaves', 'users.id', '=', 'amount_leaves.user_id')
@@ -124,7 +125,7 @@ class StaffController extends Controller
 
         $staff = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('users.id', '=', $id)->get();
+        ->where('users.id', '=', $id)->first();
 
         $amount = DB::table('amount_leaves')
         ->where('user_id', '=', $id)->get();
@@ -148,11 +149,8 @@ class StaffController extends Controller
             'position' => 'required',
             'phone' => 'required',
             'line' => 'required',
-            'img' => 'nullable',
             'email' => 'required|email|max:255',
         ]);
-        $path = $request->file('img')->store('public/img');
-        $sub = str_replace("public","storage" , $path);
         DB::table('users')
             ->where('users.id', $id)
             ->update([
@@ -164,7 +162,6 @@ class StaffController extends Controller
                 'position' => $request['position'], 
                 'phone' => $request['phone'],
                 'line' => $request['line'],
-                'img' => $sub,
                 'email' => $request['email'],
         ]);
            
@@ -200,4 +197,5 @@ class StaffController extends Controller
           DB::table('amount_leaves')->where('amount_leaves.user_id', '=', $id)->delete();
         return redirect('staff')->with('del', 'ลบข้อมูลเรียบร้อย');
     }
+
 }

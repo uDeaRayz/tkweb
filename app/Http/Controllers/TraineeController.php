@@ -22,7 +22,7 @@ class TraineeController extends Controller
     {
         $trainee = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('level', '=', 1)->get();
+        ->where('level', '=', 1)->paginate(15);
         return view('user.trainee.trainee', compact('trainee'));
     }
 
@@ -51,15 +51,11 @@ class TraineeController extends Controller
             'fname' => 'required',
             'lname' => 'required',
             'position' => 'required',
+            'phone' => 'required',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|confirmed|min:6',
-            'img' => 'nullable',
+            'password' => 'required|min:6',
         ]);
 
-        
-            
-        $path = $request->file('img')->store('public/img');
-        $sub = str_replace("public","storage" , $path);
             
         $trainee =  User::create([
             'prename' => $request['prename'],
@@ -70,9 +66,8 @@ class TraineeController extends Controller
             'position' => $request['position'],
             'phone' => $request['phone'],
             'line' => $request['line'],
-            'img' => $sub,
             'email' => $request['email'],
-            'password' => Hash::make($request['password'])
+            'password' => Hash::make($request['phone'])
         ]);
 
            
@@ -106,7 +101,7 @@ class TraineeController extends Controller
     {
         $trainee = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('users.id', '=', $id)->get();
+        ->where('users.id', '=', $id)->first();
 
         $amount = DB::table('users')
         ->join('amount_leaves', 'users.id', '=', 'amount_leaves.user_id')
@@ -126,7 +121,7 @@ class TraineeController extends Controller
 
         $trainee = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('users.id', '=', $id)->get();
+        ->where('users.id', '=', $id)->first();
 
         $amount = DB::table('amount_leaves')
         ->where('user_id', '=', $id)->get();

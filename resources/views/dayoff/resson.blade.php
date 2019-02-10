@@ -55,6 +55,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex flex-row-reverse">
+                {{ $resson->links() }}
+            </div>
         </div>
     </div>
 </div>
