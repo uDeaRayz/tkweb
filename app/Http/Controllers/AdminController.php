@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\AddLeave;
 
 class AdminController extends Controller
 {
@@ -16,15 +17,17 @@ class AdminController extends Controller
 
     public function index()
     {
-        $admin = DB::table('users')->where('status', '=', 1)->get();  //แสดงข้อมูลจาก status
-        return view('user.admin.admin', compact('admin'));
+        $admin = DB::table('users')->where('level', '=', 1)->get();  //แสดงข้อมูลจาก status
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.admin.admin', compact('admin','data'));
     }
 
 
 
     public function create()
     {
-        return view('user.admin.create');
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.admin.create',compact('data'));
     }
 
     /**
@@ -41,7 +44,6 @@ class AdminController extends Controller
             'prename' => $request['prename'],
             'fname' => $request['fname'],
             'lname' => $request['lname'],
-            'status' => $request['status'],
             'level' => $request['level'],
             'email' => $request['email'],
             'password' => Hash::make($request['password'])

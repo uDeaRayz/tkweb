@@ -28,9 +28,22 @@
     <div class="p-2">
         <button class="btn btn-success"><i class="fas fa-print"></i> {{ __('พิมพ์') }}</button>
     </div>
-    <div class="p-2">
-        <button class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</button>
-    </div>
+    @if ($id == 0)
+        <div class="p-2">
+            <a href="{{ url('/report_staffs') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
+        </div>
+    @endif
+    @if ($id == 1)
+        <div class="p-2">
+            <a href="{{ url('/report_trainee') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
+        </div>
+    @endif
+    @if ($id == 2)
+        <div class="p-2">
+            <a href="{{ url('/report_staff') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
+        </div>
+    @endif
+
   </div>
 <div class="table-responsive-md">
     <table class="table table-hover">

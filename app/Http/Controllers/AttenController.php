@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\AddLeave;
 
 class AttenController extends Controller
 {
@@ -13,7 +14,8 @@ class AttenController extends Controller
      */
     public function index()
     {
-        return view('attendance.atten');
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('attendance.atten',compact('data'));
     }
 
     /**

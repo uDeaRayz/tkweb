@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\AddLeave;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $staff = User::all()->where('level',2)->COUNT('id');
+        $trainee = User::all()->where('level',3)->COUNT('id');
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('home',compact('data','staff','trainee'));
     }
 }

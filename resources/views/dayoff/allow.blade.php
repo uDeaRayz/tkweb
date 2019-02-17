@@ -1,8 +1,8 @@
 @extends('layouts.main')
-@section('title', 'การลาผ่านการอนุมัติ')
+@section('title', 'ผ่านการอนุมัติ')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="far fa-thumbs-up"></i> การลาผ่านการอนุมัติ</h2>
+<h2 class=" text-primary"><i class="far fa-thumbs-up"></i> การลาผ่านอนุมัติ</h2>
 @endsection
 
 @section('content')
@@ -21,16 +21,38 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="text-center">นางสาวสุภาวดี เพ็งจันทร์</td>
-                    <td class="text-center">ลาป่วย</td>
-                    <td class="text-center">2/01/2562 - 3/01/2562</td>
-                    <td class="text-center">1</td>
-                    <td class="text-center">หมอนัด</td>
-                    <td class="text-center">
-                        <a href="#" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
-                    </td>
-                </tr>
+                @foreach ($leave as $key => $item)
+                    <tr>
+                        <td class="text-center">
+                            @if($item->prename == 1)
+                                {{ "นาย" }}
+                            @endif
+                            @if($item->prename == 2)
+                                {{ "นาง" }}
+                            @endif
+                            @if($item->prename == 3)
+                                {{ "นางสาว" }}
+                            @endif
+                                {{ $item->fname }} {{ $item->lname }}</td>
+                        <td class="text-center">{{ $item->leave_name }}</td>
+                        <td class="text-center">{{ db2txt($item->date_start) }} - {{ db2txt($item->date_end) }}</td>
+                        <td class="text-center">
+                            @if ($item->add_type == 1)
+                                {{ __('ครึ่งวันเช้า') }}
+                            @endif
+                            @if ($item->add_type == 2)
+                                {{ __('ครึ่งวันบ่าย') }}
+                            @endif
+                            @if ($item->add_type == 3)
+                                {{ $item->total }} วัน
+                            @endif
+                        </td>
+                        <td class="text-center">{{ $item->detail }}</td>
+                        <td class="text-center">
+                                <a href="{{ route('dayoff.show',$item->add_id) }}" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

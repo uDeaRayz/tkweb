@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
+use PDF;
+use App\AddLeave;
+use Illuminate\Support\Facades\View;
 class ReportStaffController extends Controller
 {
     /**
@@ -18,7 +21,8 @@ class ReportStaffController extends Controller
         $user = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
         ->where('level','>',0 )->paginate(15);
-        return view('report.staff', compact('user','id')); 
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('report.staff', compact('user','id','data')); 
                       
     }
 
@@ -50,15 +54,16 @@ class ReportStaffController extends Controller
             $id = 1;
             $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
-                    ->where('level',1)->paginate(15);
+                    ->where('level',2)->paginate(15);
         }
         if ($request->leave == 2) {
             $id = 2;
             $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
-                    ->where('level',2)->paginate(15);
+                    ->where('level',3)->paginate(15);
         }
-        return view('report.staff', compact('user','id'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('report.staff', compact('user','id','data'));
     }
 
     /**
@@ -104,5 +109,42 @@ class ReportStaffController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function trainee_pdf(Request $request) {
+            $id = 1;
+            $user = DB::table('users')
+                    ->join('positions', 'users.position', '=', 'positions.post_id')
+                    ->where('level',3)->paginate(15);
+        $data = [
+            'foo' => 'bar',
+        ];
+        $pdf = PDF::loadView('report.pdf.staff', $data,compact('user','id'));
+        return $pdf->stream('staff.pdf');
+    }
+
+    public function staff_pdf(Request $request) {
+        $id = 2;
+            $user = DB::table('users')
+                    ->join('positions', 'users.position', '=', 'positions.post_id')
+                    ->where('level',2)->paginate(15);
+        $data = [
+            'foo' => 'bar',
+        ];
+        $pdf = PDF::loadView('report.pdf.staff', $data,compact('user','id'));
+        return $pdf->stream('staff.pdf');
+    }
+
+    public function all_pdf(Request $request) {
+        $id = 0;
+        $user = DB::table('users')
+            ->join('positions', 'users.position', '=', 'positions.post_id')
+            ->where('level','>',0 )->paginate(15);
+        $data = [
+            'foo' => 'bar',
+        ];
+        $pdf = PDF::loadView('report.pdf.staff', $data,compact('user','id'));
+        return $pdf->stream('staff.pdf');
     }
 }

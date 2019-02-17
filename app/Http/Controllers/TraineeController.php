@@ -8,6 +8,7 @@ use App\User;
 use App\leave;
 use App\Position;
 use App\AmountLeave;
+use App\AddLeave;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,8 +23,9 @@ class TraineeController extends Controller
     {
         $trainee = DB::table('users')
         ->join('positions', 'users.position', '=', 'positions.post_id')
-        ->where('level', '=', 1)->paginate(15);
-        return view('user.trainee.trainee', compact('trainee'));
+        ->where('level', '=', 3)->paginate(15);
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.trainee.trainee', compact('trainee','data'));
     }
 
     /** 
@@ -35,7 +37,8 @@ class TraineeController extends Controller
     {
         $dayoff = Leave::all();
         $position = Position::all();
-        return view('user.trainee.create' ,compact('dayoff','position'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.trainee.create' ,compact('dayoff','position','data'));
     }
 
     /**
@@ -53,22 +56,39 @@ class TraineeController extends Controller
             'position' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:6',
+            'img' => 'nullable',
         ]);
 
-            
-        $trainee =  User::create([
-            'prename' => $request['prename'],
-            'fname' => $request['fname'],
-            'lname' => $request['lname'],
-            'status' => $request['status'],
-            'level' => $request['level'],
-            'position' => $request['position'],
-            'phone' => $request['phone'],
-            'line' => $request['line'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['phone'])
-        ]);
+        
+        if (!$request->img == null) {
+            $path = $request->file('img')->store('public/img');
+            $sub = str_replace("public","storage" , $path);
+                
+            $trainee =  User::create([
+                'prename' => $request['prename'],
+                'fname' => $request['fname'],
+                'lname' => $request['lname'],
+                'level' => $request['level'],
+                'position' => $request['position'],
+                'phone' => $request['phone'],
+                'line' => $request['line'],
+                'img' => $sub,
+                'email' => $request['email'],
+                'password' => Hash::make($request['phone'])
+            ]);
+        }else {
+            $trainee =  User::create([
+                'prename' => $request['prename'],
+                'fname' => $request['fname'],
+                'lname' => $request['lname'],
+                'level' => $request['level'],
+                'position' => $request['position'],
+                'phone' => $request['phone'],
+                'line' => $request['line'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['phone'])
+            ]);
+        }    
 
            
         if(count($request->leave) > 0)
@@ -77,16 +97,14 @@ class TraineeController extends Controller
 				if($value != "")
 				{     
                     $data = AmountLeave::create([
-                     'leave_name' => $value,
+                        'leave_name' => $value,
                         'amount_num' => $request->amount_num[$key],
                         'user_id' => $trainee->id,
                     ]);                   
                 }
 			}
-        }
-
-        
-        return redirect('trainee')->with('add','เพิ่มนักศึกษางานสำเร็จ');
+        } 
+        return redirect('trainee')->with('add','เพิ่มนักศึกษาฝึกงานสำเร็จ');
     } 
 
 
@@ -106,7 +124,8 @@ class TraineeController extends Controller
         $amount = DB::table('users')
         ->join('amount_leaves', 'users.id', '=', 'amount_leaves.user_id')
         ->where('users.id', '=', $id)->get();
-        return view('user.trainee.show' ,compact('trainee','amount'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.trainee.show' ,compact('trainee','amount','data'));
     }
 
     /**
@@ -126,7 +145,8 @@ class TraineeController extends Controller
         $amount = DB::table('amount_leaves')
         ->where('user_id', '=', $id)->get();
 
-        return view('user.trainee.edit' ,compact('trainee','amount','id','position'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('user.trainee.edit' ,compact('trainee','amount','id','position','data'));
     }
 
     /**
@@ -146,26 +166,43 @@ class TraineeController extends Controller
             'position' => 'required',
             'phone' => 'required',
             'line' => 'required',
-            'img' => 'nullable',
             'email' => 'required|email|max:255',
         ]);
-        $path = $request->file('img')->store('public/img');
-        $sub = str_replace("public","storage" , $path);
-        DB::table('users')
+
+        if (!$request->img == null) {
+            $path = $request->file('img')->store('public/img');
+            $sub = str_replace("public","storage" , $path);
+                
+            DB::table('users')
             ->where('users.id', $id)
             ->update([
                 'prename' => $request['prename'],
                 'fname' => $request['fname'],
                 'lname' => $request['lname'],
-                'status' => $request['status'],
                 'level' => $request['level'],
                 'position' => $request['position'], 
                 'phone' => $request['phone'],
                 'line' => $request['line'],
-                'img' => $sub,
                 'email' => $request['email'],
-        ]);
-           
+                'img' => $sub,
+                'password' => Hash::make($request['phone'])
+            ]);
+        }else {
+            DB::table('users')
+            ->where('users.id', $id)
+            ->update([
+                'prename' => $request['prename'],
+                'fname' => $request['fname'],
+                'lname' => $request['lname'],
+                'level' => $request['level'],
+                'position' => $request['position'], 
+                'phone' => $request['phone'],
+                'line' => $request['line'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['phone'])
+            ]);
+        }    
+
         if(count($request->leave) > 0)
 		{
 			foreach ($request->leave as $key =>$value ) {

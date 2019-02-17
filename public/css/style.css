@@ -7,6 +7,12 @@
     box-shadow: 1px 1px #e0e0e0;
 }
 
+.dashbord-title {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 1px 1px #e0e0e0;
+}
+
 .add-btn {
     margin: 5px;
 }

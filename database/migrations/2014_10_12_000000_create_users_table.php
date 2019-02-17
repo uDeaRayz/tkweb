@@ -18,9 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('prename');
             $table->string('fname');
             $table->string('lname');
-            $table->string('status',1)->nullable(); /* ระดับการเข้าถึงข้อมูล */ 
             $table->string('level',1)->nullable();  /* บอกระดับว่าเป็น Admin trainee or staff */
-            $table->string('position',1)->nullable();
+            $table->string('position')->nullable();
             $table->string('phone')->nullable();
             $table->string('line')->nullable();
             $table->string('img')->nullable();

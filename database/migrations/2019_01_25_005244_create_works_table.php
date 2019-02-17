@@ -20,7 +20,6 @@ class CreateWorksTable extends Migration
             $table->unsignedInteger('prov_id');
             $table->unsignedInteger('dist_id');
             $table->unsignedInteger('subdist_id');
-            $table->date('date')->nullable;
             $table->string('detail')->nullable;
             $table->string('img')->nullable;
             $table->timestamps();

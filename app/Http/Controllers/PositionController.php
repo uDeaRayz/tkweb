@@ -7,7 +7,8 @@ use App\Position;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use Response;
-
+use App\AddLeave;
+use DB;
 
 class PositionController extends Controller
 {
@@ -18,7 +19,8 @@ class PositionController extends Controller
         
 
         $position = position::all();
-        return view('position.position', compact('position'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('position.position', compact('position','data'));
         
     }
 
@@ -80,5 +82,14 @@ class PositionController extends Controller
         $position = position::find($id);
         $position->delete();
         return redirect('position')->with('del', 'ลบข้อมูลเรียบร้อย');
+    }
+
+    public function fix(Request $request){
+        DB::table('positions')
+            ->where('post_id', $request->post_id)
+            ->update([
+                'post_name' => $request['post_name'],
+        ]);
+        return redirect('position')->with('update', 'แก้ไขข้อมูลเรียบร้อย');
     }
 }

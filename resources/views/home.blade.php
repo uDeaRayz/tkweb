@@ -2,17 +2,49 @@
 @section('title', 'Dash board')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-tachometer-alt"></i> {{ __('Dash board') }}</h2>
+    <div class="row">
+        <div class="col-md " style="margin:20px;">
+            <div class="row">
+                <div class="col-md-4 text-center bg-info">
+                    <img src="{{ asset('img/team.png') }}" style="width:60px;">
+                </div>
+                <div class="col-md bg-white text-center dashbord-title ">
+                    <h4>{{ __('Staff') }}</h4>
+                    <h5>{{ $staff }} {{ __('คน') }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md " style="margin:20px;">
+            <div class="row">
+                <div class="col-md-4 text-center bg-warning">
+                    <img src="{{ asset('img/team.png') }}" style="width:60px;">
+                </div>
+                <div class="col-md bg-white text-center dashbord-title">
+                    <h4>{{ __('Trainee') }}</h4>
+                    <h5>{{ $trainee }} {{ __('คน') }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md " style="margin:20px;">
+            <div class="row">
+                <div class="col-md-4 text-center bg-danger">
+                    <img src="{{ asset('img/calendar.png') }}" style="width:60px;">
+                </div>
+                <div class="col-md bg-white text-center dashbord-title">
+                    <h4>{{ __('การลารออนุมัติ') }}</h4>
+                    <h5>{{ $data }} {{ __('รายการ') }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
-    
+    <div>
+        
+    </div>
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function{
 
-        });
-    </script>
 @endsection

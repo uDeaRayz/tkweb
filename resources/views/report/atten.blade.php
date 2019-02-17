@@ -12,7 +12,7 @@
         <label for="user_type" style="font-weight:600;">{{ __('วันที่เริ่มต้น') }}</label>
     </div>
     <div class="p-2">
-        <input class="form-control" type="date" name="date-start" id="date-start" >
+        <input class="form-control" type="date" name="date-start" id="date-start">
     </div>
     <div class="p-2">
         <label for="user_type" style="font-weight:600;">{{ __('วันที่สิ้นสุด') }}</label>
@@ -55,9 +55,5 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function{
-
-        });
-    </script>
+   
 @endsection

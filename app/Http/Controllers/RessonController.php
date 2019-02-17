@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Leave;
 use App\Resson;
 use DB;
+use App\AddLeave;
 use Illuminate\Support\Facades\Validator;
 
 class RessonController extends Controller
@@ -22,7 +23,8 @@ class RessonController extends Controller
         $resson = DB::table('ressons')
                     ->leftJoin('leaves', 'ressons.leave_id', '=', 'leaves.leave_id')
                     ->paginate(15);
-        return view('dayoff.resson',compact('dayoff', 'resson'));
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('dayoff.resson',compact('dayoff', 'resson','data'));
     }
 
     /**
@@ -101,5 +103,14 @@ class RessonController extends Controller
         $resson = Resson::find($id);
         $resson->delete();
         return redirect('resson')->with('del', 'ลบข้อมูลเรียบร้อย');
+    }
+
+    public function fix(Request $request){
+        DB::table('ressons')
+            ->where('resson_id', $request->resson_id)
+            ->update([
+                'resson_name' => $request['resson_name'],
+        ]);
+        return redirect('resson')->with('update', 'แก้ไขข้อมูลเรียบร้อย');
     }
 }

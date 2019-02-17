@@ -15,12 +15,11 @@ class CreateAddLeavesTable extends Migration
     {
         Schema::create('add_leaves', function (Blueprint $table) {
             $table->increments('add_id');
-            $table->unsignedInteger('leave_id');
+            $table->unsignedInteger('amount_id');
             $table->unsignedInteger('user_id');
             $table->string('add_type',1)->nullable();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
-            $table->integer('total')->nullable();
             $table->string('img')->nullable();
             $table->string('detail')->nullable();
             $table->string('status',1)->nullable();

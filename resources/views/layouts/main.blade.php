@@ -60,11 +60,16 @@
                 </li>
                 <li class="li">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-calendar-day"></i> บันทึกการลา <span class="badge badge-warning">4</span>
+                        <i class="fas fa-calendar-day"></i> บันทึกการลา 
+                        @if ($data > 0)
+                            <span class="badge badge-warning">
+                                {{ $data }}
+                            </span>
+                        @endif
                     </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li class="ul">
-                            <a href="{{ url('/dayoff') }}">บันทึกการลา</a>
+                            <a href="{{ url('/dayoff') }}">รออนุมัติ</a>
                         </li>
                         <li class="ul">
                             <a href="{{ url('/allow') }}">ผ่านอนุมัติ</a>

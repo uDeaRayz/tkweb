@@ -33,8 +33,19 @@
         <tbody>
             @foreach ($admin as $key => $item)
             <tr>
-                <td class="text-center">{{ $key + 1}}</td>
-                <td class="text-center">{{ $item->prename }}{{ $item->fname }} {{ $item->lname }}</td>
+                <td class="text-center">{{ $key + 1 }}</td>
+                <td>
+                    @if($item->prename == 1)
+                        {{ "นาย" }}
+                    @endif
+                    @if($item->prename == 2)
+                        {{ "นาง" }}
+                    @endif
+                    @if($item->prename == 3)
+                        {{ "นางสาว" }}
+                    @endif
+                        {{ $item->fname }} {{ $item->lname }}
+                </td>
                 <td class="text-center">{{ $item->email }}</td>
                 <td class="text-center">
                     <form action="{{ route('admin.destroy',$item->id) }}" method="post" class="delete_form">

@@ -161,8 +161,7 @@
             </div>
         </div>
     </div>
-    <input type="hidden" name="status" value="2">
-    <input type="hidden" name="level" value="1">
+    <input type="hidden" name="level" value="3">
     <div class="text-center form-staff-margin" style="margin-bottom:30px;">
         <button class="btn btn-primary">{{ __('บันทึก') }}</button>
         <a href="{{ route('trainee.index') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>

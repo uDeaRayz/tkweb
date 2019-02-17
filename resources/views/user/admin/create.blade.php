@@ -98,8 +98,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <input type="hidden" name="status" value="1">
-                <input type="hidden" name="level" value="0">
+                <input type="hidden" name="level" value="1">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ __('บันทึก') }}</button>
                 <button type="reset" class="btn btn-danger"><i class="fas fa-redo-alt"></i> {{ __('ยกเลิก') }}</button>
             </div>

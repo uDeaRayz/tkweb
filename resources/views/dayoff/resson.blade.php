@@ -24,6 +24,11 @@
                 <p class="text-success">{{ session('add') }}</p>
             </div>
             @endif
+            @if (session('update'))
+            <div class="alert alert-success">
+                <p class="text-success">{{ session('update') }}</p>
+            </div>
+            @endif
             <table class="table">
                 <thead>
                     <tr>
@@ -40,15 +45,15 @@
                         <td class="text-center">{{ $item->leave_name }}</td>
                         <td class="text-center">{{ $item->resson_name }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"><i
+                            <button type="button" class="btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"  data-id="{{ $item->resson_id }}" data-name="{{ $item->resson_name }}"><i
                                     class="fas fa-pencil-alt"></i></button>
                         </td>
                         <td class="text-center" width="20px;">
                             <form action="{{ route('resson.destroy',$item->resson_id) }}" method="post" class="delete_form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del" title="ลบข้อมูล"><i
-                                        class="fas fa-trash-alt"></i></button>
+                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del" title="ลบข้อมูล">
+                                    <i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -76,6 +81,13 @@
             } else {
                 return false;
             }
+        });
+        $(".BtnEdit").click(function(){
+            $(".modalEdit").modal();
+            var id = $(this).data('id');
+            var resson_name = $(this).data('name');
+            $(".modal-body #id").val( id );
+            $(".modal-body #resson_name").val( resson_name );
         });
     });
 
@@ -112,6 +124,32 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('ยกเลิก') }}</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modalEdit" id="modalEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
+            <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        <form action="{{ route('edit_resson')}}" method="POST">
+            @csrf
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="resson_name" style="font-weight:600;">{{ __('เหตุผล') }}</label>
+                    <input type="text" class="form-control" name="resson_name" id="resson_name" value="">
+                    <input type="hidden" class="form-control" name="resson_id" id="id">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">บันทึก</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+            </div>
+        </form>
         </div>
     </div>
 </div>

@@ -20,7 +20,6 @@ class CreateAttendancesTable extends Migration
             $table->time('atten_time')->nullable;
             $table->string('atten_status')->nullable;
             $table->string('atten_img')->nullable;
-            $table->integer('atten_total')->nullable;
             $table->timestamps();
         });
     }

@@ -122,6 +122,14 @@
                     <input type="email" name="email" class="form-control" value="{{ $trainee->email }}">
                 </div>
             </div>
+            <div class="row form-staff-margin">
+                <div class="col-md-2">
+                    <p class="text-dark">{{ __('รูปภาพ') }}</p>
+                </div>
+                <div class="col-md">
+                    <input type="file" name="img" class="form-control">
+                </div>
+            </div>
         </div>
     </div>   
     {{-- ข้อมูลการลา --}}
@@ -161,8 +169,7 @@
             </div>
         </div>    
     <div class="text-center" style="margin-bottom:40px;">
-        <input type="hidden" name="status" value="2">
-        <input type="hidden" name="level" value="1">
+        <input type="hidden" name="level" value="3">
         <button class="btn btn-primary">{{ __('บันทึก') }}</button>
         <a href="{{ route('trainee.index') }}" class="btn btn-warning">{{ __('ยกเลิก') }}</a>
     </div>

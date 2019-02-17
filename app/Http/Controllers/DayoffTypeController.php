@@ -7,6 +7,7 @@ use App\Leave;
 use App\Resson;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use App\AddLeave;
 
 class DayoffTypeController extends Controller
 {
@@ -17,8 +18,9 @@ class DayoffTypeController extends Controller
      */
     public function index()
     {
-        $dayoff = Leave::all()->paginate(15);
-        return view('dayoff.dayoff', compact('dayoff'));
+        $dayoff = DB::table('leaves')->paginate(15);
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('dayoff.dayoff', compact('dayoff','data'));
     }
 
     /**
@@ -96,11 +98,16 @@ class DayoffTypeController extends Controller
     {
         DB::table('leaves')->where('leaves.leave_id', $id)->delete();
         DB::table('ressons')->where('ressons.leave_id', $id)->delete();
-
-        // $leave = Leave::find($id);
-        // $resson = Resson::all()->where('user_id',$id);
-        // $resson->delete();
-        // $leave->delete();
         return redirect('dayoff-type')->with('del', 'ลบข้อมูลเรียบร้อย');
+    }
+
+    public function fix(Request $request){
+        DB::table('leaves')
+            ->where('leave_id', $request->leave_id)
+            ->update([
+                'leave_name' => $request['leave_name'],
+                'leave_num' => $request['leave_num'],
+        ]);
+        return redirect('dayoff-type')->with('update', 'แก้ไขข้อมูลเรียบร้อย');
     }
 }

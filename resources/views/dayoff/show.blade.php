@@ -2,14 +2,31 @@
 @section('title', 'ข้อมูลการลา')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ </h2>
+<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ 
+    @if($dayoff->prename == 1)
+        {{ "นาย" }}
+    @endif
+    @if($dayoff->prename == 2)
+        {{ "นาง" }}
+    @endif
+    @if($dayoff->prename == 3)
+        {{ "นางสาว" }}
+    @endif
+        {{ $dayoff->fname }} {{ $dayoff->lname }}
+</h2>
 @endsection
 
 @section('content')
 <div class="d-flex add-btn">
-    <a href="#" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
-    &nbsp; &nbsp;
-    <a href="#" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> {{ __('แก้ไข') }}</a>
+    @if ($dayoff->status == 0)
+        <a href="{{ route('dayoff.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    @endif
+    @if ($dayoff->status == 1)
+        <a href="{{ route('allow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    @endif
+    @if ($dayoff->status == 2)
+        <a href="{{ route('notallow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    @endif
 </div>
 <div class="row justify-content-center show-data">
     <div class="col-md-10">
@@ -17,32 +34,68 @@
             <tbody>
                 <tr>
                     <th>ประเภทการลา</th>
-                    <td></td>
+                    <td>{{ $dayoff->leave_name }}</td>
                 </tr>
                 <tr>
                     <th>วันที่ลา</th>
-                    <td></td>
+                    <td>{{ $dayoff->date_start }} - {{ $dayoff->date_end }}</td>
                 </tr>
                 <tr>
                     <th>จำนวนวันลา</th>
-                    <td></td>
+                    <td>@if ($dayoff->add_type == 1)
+                            {{ __('ครึ่งวันเช้า') }}
+                        @endif
+                        @if ($dayoff->add_type == 2)
+                            {{ __('ครึ่งวันบ่าย') }}
+                        @endif
+                        @if ($dayoff->add_type == 3)
+                            {{ $dayoff->total }} วัน
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <th>เหตุผลที่ลา</th>
-                    <td></td>
+                    <td>{{ $dayoff->detail }}</td>
                 </tr>
                 <tr>
                     <th>รูปภาพ</th>
-                    <td></td>
+                    <td>
+                        @if ($dayoff->img == null)
+                            <img src="{{ asset('img/user.png') }}">
+                        @endif
+                    </td>
                 </tr>
-                <tr>
-                    <th>สถานะ</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>หมายเหตุ</th>
-                    <td></td>
-                </tr>
+                @if ($dayoff->status == 0)
+                    <tr>
+                        <th>จัดการ</th>
+                        <td>
+                            <button type="button" class="btn btn-success" id="allow" data-dismiss="modal">
+                                <i class="fas fa-check"></i> {{ __('อนุมัติ') }}</button>
+                            <button type="button" class="btn btn-warning" id="notallow" data-dismiss="modal">
+                                <i class="fas fa-ban"></i> {{ __('ไม่อนุมัติ') }}</button>
+                        </td>
+                    </tr>
+                @endif
+                @if ($dayoff->status == 1)
+                    <tr>
+                        <th>สถานะ</th>
+                        <td>
+                            <label class="text-info" style="font-weight:bold;">{{ __('ผ่านอนุมัติ') }}</label>
+                        </td>
+                    </tr>
+                @endif
+                @if ($dayoff->status == 2)
+                    <tr>
+                        <th>สถานะ</th>
+                        <td>
+                            <label class="text-danger" style="font-weight:bold;">{{ __('ไม่ผ่านอนุมัติ') }}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>หมายเหตุ</th>
+                        <td>{{ $dayoff->comment }}</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
@@ -52,6 +105,84 @@
 
 @section('script')
 <script>
+    $(document).ready(function(){
+        $("#allow").click(function (){
+            $("#Modalallow").modal();
+        });
+        $("#notallow").click(function (){
+            $("#Modalnot").modal();
+        });
 
+        $('.notAllow_form').on('submit', function () {
+            if (confirm("ยืนยันการไม่อนุมัติการลา ?")) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    });
 </script>
 @endsection
+
+@section('modal')
+
+<div class="modal fade" id="Modalallow" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __('ยืนยันการอนุมัติ') }}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{{ route('dayoff.update',$dayoff->add_id) }}" method="post">
+                @csrf
+                @method('PATCH')
+                <div class="modal-body">
+                    <p style="font-weight:500;color:black;">ยืนยันการอนุมัติการลา</p>
+                    <input type="hidden" value="1" name="status" id="status">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">{{ __('ยืนยัน') }}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('ยกเลิก') }}</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="Modalnot" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __('ไม่อนุมัติ') }}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{{ route('dayoff.update',$dayoff->add_id) }}" method="post" class="notAllow_form">
+                @csrf
+                @method('PATCH')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="resson_id" style="font-weight:600;">{{ __('เหตุผล') }}</label>
+                        <select class="form-control" id="resson_id" name="resson_id">
+                          <option value="">เลือกเหตุผล</option>
+                            @foreach ($resson as $ressons)
+                                <option value="{{ $ressons->resson_id }}">{{ $ressons->resson_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight:600;">{{ __('กรอกเหตุผลอื่น ๆ ') }}</label>
+                        <input type="text" class="form-control" name="comment">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" value="2" name="status" id="status">
+                    <button type="submit" class="btn btn-success">ยืนยัน</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('ยกเลิก') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+

@@ -24,6 +24,11 @@
                 <p class="text-success">{{ session('add') }}</p>
             </div>
             @endif
+            @if (session('update'))
+            <div class="alert alert-success">
+                <p class="text-success">{{ session('update') }}</p>
+            </div>
+            @endif
             <table class="table" id="table">
                 <thead>
                     <tr>
@@ -39,7 +44,7 @@
                         <td class="text-center">{{ $key+1 }}</td>
                         <td>{{ $item->post_name }}</td>
                         <td width="20px;">
-                            <button href="#" class="edit-modal btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล"
+                            <button class="edit-modal btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"
                                 data-id="{{ $item->post_id }}" data-name="{{ $item->post_name }}" data-target="#EditData"><i
                                     class="fas fa-pencil-alt"></i></button>
                         </td>
@@ -75,11 +80,19 @@
                 return false;
             }
         });
+
+        $(".BtnEdit").click(function(){
+            $(".modalEdit").modal();
+            var post_id = $(this).data('id');
+            var post_name = $(this).data('name');
+            $(".modal-body #post_id").val( post_id );
+            $(".modal-body #post_name").val( post_name );
+        });
     });
 
 </script>
 @endsection
-
+ 
 @section('modal')
 <div class="modal fade" id="create" role="dialog">
     <div class="modal-dialog">
@@ -107,29 +120,27 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="EditData" role="dialog">
+<div class="modal fade modalEdit" id="modalEdit">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ __('เพิ่มตำแหน่ง') }}</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+        <div class="modal-header">
+            <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
+            <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        <form action="{{ route('edit_position')}}" method="POST">
+            @csrf
             <div class="modal-body">
-                <form action="{{ route('position.store') }}" method="POST">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <label class="control-label" for="post_name" style="font-weight:600;">{{ __('ชื่อตำแหน่ง') }}</label>
-                        <input type="text" class="form-control" id="post_name" name="post_name" value="" required>
-                        <input type="text" class="form-control" id="post_id" name="post_id" placeholder="ชื่อตำแหน่ง"
-                            required>
-                        <p class="error text-center alert alert-danger" hidden></p>
-                    </div>
+                <div class="form-group">
+                    <label for="resson_name" style="font-weight:600;">{{ __('ตำแหน่ง') }}</label>
+                    <input type="text" class="form-control" name="post_name" id="post_name" value="">
+                    <input type="hidden" class="form-control" name="post_id" id="post_id">
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success" id="add">{{ __('เพิ่ม') }}</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('ยกเลิก') }}</button>
+                <button type="submit" class="btn btn-danger">บันทึก</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
             </div>
-            </form>
+        </form>
         </div>
     </div>
 </div>

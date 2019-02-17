@@ -24,6 +24,11 @@
                 <p class="text-success">{{ session('add') }}</p>
             </div>
             @endif
+            @if (session('update'))
+            <div class="alert alert-success">
+                <p class="text-success">{{ session('update') }}</p>
+            </div>
+            @endif
             <table class="table">
                 <thead>
                     <tr>
@@ -40,8 +45,10 @@
                         <td class="text-center">{{ $item->leave_name }}</td>
                         <td class="text-center">{{ $item->leave_num }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-warning" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"><i
-                                    class="fas fa-pencil-alt"></i></button>
+                            <button class="edit-modal btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"
+                                data-id="{{ $item->leave_id }}" data-name="{{ $item->leave_name }}" data-num="{{ $item->leave_num }}" data-target="#EditData">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
                         </td>
                         <td class="text-center" width="20px;">
                             <form action="{{ route('dayoff-type.destroy',$item->leave_id) }}" method="post" class="delete_form">
@@ -76,6 +83,16 @@
             } else {
                 return false;
             }
+        });
+
+        $(".BtnEdit").click(function(){
+            $(".modalEdit").modal();
+            var leave_id = $(this).data('id');
+            var leave_name = $(this).data('name');
+            var leave_num = $(this).data('num');
+            $(".modal-body #leave_id").val( leave_id );
+            $(".modal-body #leave_name").val( leave_name );
+            $(".modal-body #leave_num").val( leave_num );
         });
     });
 
@@ -112,4 +129,34 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade modalEdit" id="modalEdit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <form action="{{ route('edit_leave')}}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="resson_name" style="font-weight:600;">{{ __('ประเภทการลา') }}</label>
+                        <input type="text" class="form-control" name="leave_name" id="leave_name" value="">
+                        <input type="hidden" class="form-control" name="leave_id" id="leave_id">
+                    </div>
+                    <div class="form-group">
+                        <label for="resson_name" style="font-weight:600;">{{ __('จำนวนวันลาต่อปี') }}</label>
+                        <input type="text" class="form-control" name="leave_num" id="leave_num" value="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">บันทึก</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
 @endsection
