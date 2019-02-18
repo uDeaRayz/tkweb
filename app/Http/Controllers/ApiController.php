@@ -112,57 +112,11 @@ class ApiController extends Controller
 
     function uploadFile(Request $request)
     {
-        
-        
-        if (!empty($$request->PhotoIn)) {
-            $status = "sucess";
-            return response()->json($status, 200);
-        } else {
-            $status = "error";
-            return response()->json($status, 200);
+        $json['msg'] = 'Not';
+        if ($request->hasFile('file')) {
+            $json['msg'] = 'hasFile';
         }
-        
-        // $postdata = file_get_contents("php://input");
-        // if(isset($postdata)){
-        //     $request = json_decode($postdata);
-        //     $postdata['image_base64'] = $request->PhotoIn;
-        //     $postdata['ImageName'] = 'imgname';
-        //     if(!empty($postdata['image_base64'])){
-        //         $img = str_replace('data:image/jpg;base64,','',$postdata['image_base64']);
-        //         $img = str_replace(' ', '+', $img);
-        //         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$img));
-        //         $target_file = $_SERVER['DOCUMENT_ROOP'].'public/storage/img/pig'.$postdata['ImageName'].'.jpg';
-
-        //         if (file_put_contents($target_file,$data)) {
-        //             return response()->json('success', 200);
-        //         }else{
-        //             return response()->json('error', 200);
-        //         }
-        //     }
-        // }
-
-        // $target_dir = "public/img/";
-        // $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        // $uploadOk = 1;
-        // $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        // // Check if image file is a actual image or fake image
-        // if(isset($_POST["submit"])) {
-        //     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        //     if($check !== false) {
-        //         echo "File is an image - " . $check["mime"] . ".";
-        //         $uploadOk = 1;
-        //     } else {
-        //         echo "File is not an image.";
-        //         $uploadOk = 0;
-        //     }
-        // }
-
-
-        // $json['msg'] = 'Not';
-        // if ($request->hasFile('file')) {
-        //     $json['msg'] = 'hasFile';
-        // }
-        // return response()->json($imageFileType, 200);
+        return response()->json($imageFileType, 200);
     }
 
 

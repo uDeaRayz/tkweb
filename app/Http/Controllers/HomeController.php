@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\AddLeave;
 use App\User;
+use DateTime;
 
 class HomeController extends Controller
 {
@@ -28,6 +29,8 @@ class HomeController extends Controller
         $staff = User::all()->where('level',2)->COUNT('id');
         $trainee = User::all()->where('level',3)->COUNT('id');
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('home',compact('data','staff','trainee'));
+        $date = new \DateTime();
+        // dd( $date);
+        return view('home',compact('data','staff','trainee','date'));
     }
 }

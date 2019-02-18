@@ -212,12 +212,9 @@ class StaffController extends Controller
                             'leave_name' => $value,
                             'amount_num' => $request->amount_num[$key]
                     ]);
-
                 }
 			}
         }
-
-        
         return redirect('staff')->with('update','แก้ไขข้อมูลสำเร็จ');
     }
 
