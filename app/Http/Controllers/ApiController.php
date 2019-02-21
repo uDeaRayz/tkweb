@@ -11,6 +11,7 @@ use App\Attendance;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -41,7 +42,7 @@ class ApiController extends Controller
     }
 
     public function subdist(Request $request){
-        $subdist = DB::table('subdistricts')->where('districts.prov_id',$request->dist_id)->get();
+        $subdist = DB::table('subdistricts')->where('subdistricts.dist_id',$request->dist_id)->get();
         return response()->json($subdist, 200);
     }
 
@@ -113,10 +114,26 @@ class ApiController extends Controller
     function uploadFile(Request $request)
     {
         $json['msg'] = 'Not';
-        if ($request->hasFile('file')) {
+        $filename = '';
+
+        if ($request->hasFile('picture')) {
+
+            $uploadedFile = $request->file('picture');
+            $filename = time().$uploadedFile->getClientOriginalName();
+
+            Storage::disk('local')->putFileAs(
+                'files/',
+                $uploadedFile,
+                $filename
+            );
+
             $json['msg'] = 'hasFile';
+
         }
-        return response()->json($imageFileType, 200);
+
+        $json['data'] = $filename;
+
+        return response()->json($json, 200);
     }
 
 
