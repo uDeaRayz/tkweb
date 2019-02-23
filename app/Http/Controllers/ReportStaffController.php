@@ -50,14 +50,14 @@ class ReportStaffController extends Controller
                     ->join('positions', 'users.position', '=', 'positions.post_id')
                     ->where('level','>',0 )->paginate(15);
         }
-        if ($request->leave == 1) {
-            $id = 1;
+        if ($request->leave == 2) {
+            $id = 2;
             $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
                     ->where('level',2)->paginate(15);
         }
-        if ($request->leave == 2) {
-            $id = 2;
+        if ($request->leave == 3) {
+            $id = 3 ;
             $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
                     ->where('level',3)->paginate(15);
@@ -113,7 +113,7 @@ class ReportStaffController extends Controller
 
 
     public function trainee_pdf(Request $request) {
-            $id = 1;
+            $id = 3;
             $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
                     ->where('level',3)->paginate(15);

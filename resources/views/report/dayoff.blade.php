@@ -24,7 +24,6 @@
         <div class="p-2">
             <button class="btn btn-primary"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>
         </div>
-        
         </form>
     <div class="p-2">
         <button class="btn btn-success"><i class="fas fa-print"></i> {{ __('พิมพ์') }}</button>
@@ -64,7 +63,7 @@
                     @endif
                     {{ $item->fname }} {{ $item->lname }}
                 </td>
-                <td class="text-center">{{ $item->date_start }} {{ __('-') }} {{ $item->date_end }}</td>
+                <td class="text-center">{{ db2txt($item->date_start) }} {{ __('-') }} {{ db2txt($item->date_end) }}</td>
                 <td class="text-center">{{ $item->total }}</td>
                 <td class="text-center">{{ $item->detail }}</td>
                 <td class="text-center">

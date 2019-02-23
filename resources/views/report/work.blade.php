@@ -18,7 +18,7 @@
         <label for="user_type" style="font-weight:600;">{{ __('วันที่สิ้นสุด') }}</label>
     </div>
     <div class="p-2">
-        <input class="form-control" type="date" name="date-end" id="date-end" >
+        <input class="form-control" type="date" name="date-end" id="date-end">
     </div>
     <div class="p-2">
         <button class="btn btn-primary"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>

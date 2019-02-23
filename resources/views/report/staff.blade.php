@@ -18,7 +18,7 @@
             <select class="form-control" id="leave" name="leave">
                 <option value="0" @if ($id == 0){{ __('selected') }}@endif>{{ __('เลือกทั้งหมด') }}</option>
                 <option value="2"  @if ($id == 2){{ __('selected') }}@endif>{{ __('พนักงาน') }}</option>
-                <option value="1"  @if ($id == 1){{ __('selected') }}@endif>{{ __('นักศึกษาฝึกงาน') }}</option>
+                <option value="3"  @if ($id == 3){{ __('selected') }}@endif>{{ __('นักศึกษาฝึกงาน') }}</option>
             </select>
         </div>
         <div class="p-2">
@@ -33,14 +33,14 @@
             <a href="{{ url('/report_staffs') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
         </div>
     @endif
-    @if ($id == 1)
-        <div class="p-2">
-            <a href="{{ url('/report_trainee') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
-        </div>
-    @endif
     @if ($id == 2)
         <div class="p-2">
             <a href="{{ url('/report_staff') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
+        </div>
+    @endif
+    @if ($id == 3)
+        <div class="p-2">
+            <a href="{{ url('/report_trainee') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>
         </div>
     @endif
 
@@ -76,11 +76,11 @@
                     </td>
                     <td class="text-center">{{ $item->post_name }}</td>
                     <td class="text-center">
-                        @if ($item->level == 1)
-                            {{ __('นักศึกษาฝึกงาน') }}
-                        @endif
                         @if ($item->level == 2)
                             {{ __('พนักงาน') }}
+                        @endif
+                        @if ($item->level == 3)
+                            {{ __('นักศึกษาฝึกงาน') }}
                         @endif
                     </td>
                     <td class="text-center">{{ $item->phone }}</td>
