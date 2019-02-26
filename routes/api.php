@@ -16,13 +16,17 @@ use App\User;
 
 Route::post('/login','ApiController@login');
 
-Route::post('/amount','ApiController@amount');
 Route::get('/province','ApiController@province');
 Route::post('/district','ApiController@district');
 Route::post('/subdist','ApiController@subdist');
+
+Route::post('/amount','ApiController@amount');
+Route::post('/showDayoff','ApiController@showDayoff');
+Route::post('/add_leave','ApiController@addLeave');
+
 Route::post('/showTime','ApiController@showTime');
 Route::post('/showWork','ApiController@showWork');
-Route::post('/showDayoff','ApiController@showDayoff');
+Route::post('/add_work','ApiController@addWork');
 
 Route::post('/upload_file', 'ApiController@uploadFile');
 

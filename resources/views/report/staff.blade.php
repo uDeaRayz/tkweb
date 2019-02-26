@@ -25,9 +25,6 @@
             <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>
         </div>
     </form>
-    <div class="p-2">
-        <button class="btn btn-success"><i class="fas fa-print"></i> {{ __('พิมพ์') }}</button>
-    </div>
     @if ($id == 0)
         <div class="p-2">
             <a href="{{ url('/report_staffs') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</a>

@@ -26,9 +26,6 @@
         </div>
         </form>
     <div class="p-2">
-        <button class="btn btn-success"><i class="fas fa-print"></i> {{ __('พิมพ์') }}</button>
-    </div>
-    <div class="p-2">
         <button class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</button>
     </div>
 </div>

@@ -24,9 +24,6 @@
         <button class="btn btn-primary"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>
     </div>
     <div class="p-2">
-        <button class="btn btn-success"><i class="fas fa-print"></i> {{ __('พิมพ์') }}</button>
-    </div>
-    <div class="p-2">
         <button class="btn btn-danger"><i class="fas fa-file-pdf"></i> {{ __('pdf') }}</button>
     </div>
 </div>

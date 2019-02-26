@@ -16,12 +16,12 @@ class CreateWorksTable extends Migration
         Schema::create('works', function (Blueprint $table) {
             $table->increments('work_id');
             $table->unsignedInteger('user_id');
-            $table->string('position')->nullable;
+            $table->string('position')->nullable();
             $table->unsignedInteger('prov_id');
             $table->unsignedInteger('dist_id');
             $table->unsignedInteger('subdist_id');
-            $table->string('detail')->nullable;
-            $table->string('img')->nullable;
+            $table->string('detail')->nullable();
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }
