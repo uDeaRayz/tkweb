@@ -20,8 +20,12 @@
     <div class="col-md-10">
         
         <div class="row">
-            <div class="col-md">
-                <img src="{{ asset($trainee->img) }}" class="img-show">
+            <div class="col-md text-center">
+                @if (!$trainee->img == null)
+                    <img src="{{ asset($trainee->img) }}" class="img-show" style="height:250px; width:200px;">
+                @else
+                    <img src="{{ asset('img/user.png') }}" class="img-show" style="height:250px; width:200px;">
+                @endif
             </div>
             <div class="col-md">
                 <table class="table">
