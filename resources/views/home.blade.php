@@ -40,9 +40,46 @@
 @endsection
 
 @section('content')
-    <div>
-        {!! QrCode::size(250)->generate($trainee) !!}
-    </div>
+<br>
+<br>
+<div>
+    <h5><b>ข้อมูลบันทึกเวลาทำงาน ณ วันที่ {{ dateFullnow() }}</b></h5>
+</div>
+<div class="table-responsive-md">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">ลำดับ</th>
+                <th class="text-center">ชื่อ-สกุล</th>
+                <th class="text-center">เวลาเข้างาน</th>
+                <th class="text-center">เวลาออกงาน</th>
+                <th class="text-center">จำนวนชั่วโมง</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($atten as $key => $attendance)
+            <tr>
+                <td class="text-center">{{ $key +1 }}</td>
+                <td class="text-center">
+                    @if($attendance->prename == 1)
+                        {{ "นาย" }}
+                    @endif
+                    @if($attendance->prename == 2)
+                        {{ "นาง" }}
+                    @endif
+                    @if($attendance->prename == 3)
+                        {{ "นางสาว" }}
+                    @endif
+                        {{ $attendance->fname }} {{ $attendance->lname }}
+                </td>
+                <td class="text-center">{{ $attendance->time_in }}</td>
+                <td class="text-center">{{ $attendance->time_out }}</td>
+                <td class="text-center">{{ $attendance->atten_total }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 @endsection
 
 @section('script')

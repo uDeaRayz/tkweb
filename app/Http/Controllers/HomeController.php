@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\AddLeave;
 use App\User;
 use DateTime;
+use DB;
 
 class HomeController extends Controller
 {
@@ -29,8 +30,12 @@ class HomeController extends Controller
         $staff = User::all()->where('level',2)->COUNT('id');
         $trainee = User::all()->where('level',3)->COUNT('id');
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        $date = new \DateTime();
-        // dd( $date);
-        return view('home',compact('data','staff','trainee','date'));
+        $date = date('Y-m-d');
+
+        $atten = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->where('attendances.atten_date',$date)
+            ->get();
+        return view('home',compact('data','staff','trainee','atten'));
     }
 }

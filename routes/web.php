@@ -35,9 +35,10 @@ Route::post('/position-edit','PositionController@fix')->name('edit_position');
 Route::resource('/resson','RessonController');
 Route::post('/resson-edit','RessonController@fix')->name('edit_resson');
 
+// Attendance
 Route::resource('/attendance','AttenController');
 
-
+// work
 Route::resource('/work','WorkController');
 
 
@@ -62,6 +63,9 @@ Route::resource('/report-staff','ReportStaffController');
 Route::get('/report_staffs','ReportStaffController@all_pdf');
 Route::get('/report_staff','ReportStaffController@staff_pdf');
 Route::get('/report_trainee','ReportStaffController@trainee_pdf');
+
+// generate qr-code
+Route::get('/qrcode','QRcodeController@gendata')->name('gendata');
 
 
 Auth::routes();
