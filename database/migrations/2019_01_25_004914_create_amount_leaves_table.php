@@ -16,8 +16,8 @@ class CreateAmountLeavesTable extends Migration
         Schema::create('amount_leaves', function (Blueprint $table) {
             $table->increments('amount_id');
             $table->unsignedInteger('user_id');
-            $table->string('leave_name');
-            $table->integer('amount_num');
+            $table->string('amount_leave');
+            $table->float('amount_num', 8, 2);
             $table->timestamps();
         });
     }

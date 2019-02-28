@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Leave;
+use App\Resson;
 use App\AddLeave;
+use PDF;
 
 class ReportDayoffController extends Controller
 {
@@ -16,14 +18,70 @@ class ReportDayoffController extends Controller
      */
     public function index()
     {
-        $id = 0;
+        $leave = '';
         $dayoff = Leave::all();
-        $atten = DB::table('add_leaves')
+        $leaves = DB::table('add_leaves')
         ->join('users', 'users.id', '=', 'add_leaves.user_id')
         ->join('amount_leaves', 'amount_leaves.amount_id', '=', 'add_leaves.amount_id')
-        ->where('add_leaves.status','>',0 )->paginate(15);
+        ->where('add_leaves.status', '>' , 0)
+        ->paginate(15);
+        $resson = DB::table('ressons')->join('add_leaves', 'add_leaves.resson_id', 'ressons.resson_id')
+            ->get();
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('report.dayoff', compact('atten','dayoff','id','data'));
+        return view('report.dayoff', compact('leaves','dayoff','data', 'leave','resson'));
+    }
+
+    public function getData(Request $request)
+    {
+        $leave = $request->leave;
+        $dayoff = Leave::all();
+        if ($leave == '') {
+            $leaves = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
+            ->where('add_leaves.status', '>' , 0)
+            ->paginate(15);
+        } else {
+            $leaves = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
+            ->where('add_leaves.status', '>' , 0)
+            ->where('amount_leaves.amount_leave', $leave )->paginate(15);
+        }
+
+        $resson = DB::table('ressons')->join('add_leaves', 'add_leaves.resson_id', 'ressons.resson_id')
+            ->get();
+
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('report.dayoff', compact('leaves','dayoff','data','leave','resson'));    
+    }
+
+
+    public function pdf_dayoff(Request $request){
+        $leave = $request->name_leave;
+        if ($leave == '') {
+            $leaves = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
+            ->where('add_leaves.status', '>' , 0)
+            ->get();
+        } else {
+            $leaves = DB::table('add_leaves')
+            ->join('users', 'add_leaves.user_id', '=', 'users.id')
+            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
+            ->where('add_leaves.status', '>' , 0)
+            ->where('amount_leaves.amount_leave', $leave )->get();
+        }
+
+        $resson = DB::table('ressons')->join('add_leaves', 'add_leaves.resson_id', 'ressons.resson_id')
+            ->get();
+
+
+        $data = [
+            'foo' => 'bar',
+        ];
+        $pdf = PDF::loadView('report.pdf.leave', $data,compact('leaves','leave','resson'));
+        return $pdf->stream('leave.pdf');
     }
 
     /**
@@ -44,23 +102,7 @@ class ReportDayoffController extends Controller
      */
     public function store(Request $request)
     {
-        $dayoff = Leave::all();
-        if ($request->leave == 0) {
-            $id = 0;
-            $atten = DB::table('add_leaves')
-            ->join('users', 'add_leaves.user_id', '=', 'users.id')
-            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
-            ->where('amount_leaves.amount_id','>',0 )->paginate(15);
-        }
-        else{
-            $id = $request->leave;
-            $atten = DB::table('add_leaves')
-            ->join('users', 'add_leaves.user_id', '=', 'users.id')
-            ->join('amount_leaves', 'add_leaves.amount_id', '=', 'amount_leaves.amount_id')
-            ->where('amount_leaves.amount_id', $request->leave )->paginate(15);
-        }
-        $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('report.dayoff', compact('atten','dayoff','id','data'));
+
     }
 
     /**

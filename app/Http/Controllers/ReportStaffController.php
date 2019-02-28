@@ -113,8 +113,8 @@ class ReportStaffController extends Controller
 
 
     public function trainee_pdf(Request $request) {
-            $id = 3;
-            $user = DB::table('users')
+        $id = 3;
+        $user = DB::table('users')
                     ->join('positions', 'users.position', '=', 'positions.post_id')
                     ->where('level',3)->paginate(15);
         $data = [

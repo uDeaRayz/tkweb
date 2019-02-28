@@ -17,9 +17,9 @@ class CreateAttendancesTable extends Migration
             $table->increments('atten_id');
             $table->unsignedInteger('user_id');
             $table->date('atten_date')->nullable();
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
             $table->integer('atten_total')->nullable();
-            $table->time('atten_time')->nullable();
-            $table->string('atten_status')->nullable();
             $table->string('atten_img')->nullable();
             $table->timestamps();
         });

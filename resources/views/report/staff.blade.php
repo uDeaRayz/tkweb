@@ -43,7 +43,7 @@
 
   </div>
 <div class="table-responsive-md">
-    <table class="table table-hover">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th class="text-center">ลำดับ</th>

@@ -20,17 +20,30 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($atten as $attendance)
             <tr>
-                <td class="text-center">1 01 2562</td>
-                <td class="text-center">นางสาวสุภาวดี เพ็งจันทร์</td>
-                <td class="text-center">09.00</td>
-                <td class="text-center">17.00</td>
-                <td class="text-center">8</td>
+                <td class="text-center">{{ db2txt($attendance->atten_date) }}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-primary" data-toggle="view" title="ดูข้อมูล" id="BtnShow"><i
-                            class="fas fa-eye"></i></button>
+                    @if($attendance->prename == 1)
+                        {{ "นาย" }}
+                    @endif
+                    @if($attendance->prename == 2)
+                        {{ "นาง" }}
+                    @endif
+                    @if($attendance->prename == 3)
+                        {{ "นางสาว" }}
+                    @endif
+                        {{ $attendance->fname }} {{ $attendance->lname }}
+                </td>
+                <td class="text-center">{{ $attendance->time_in }}</td>
+                <td class="text-center">{{ $attendance->time_out }}</td>
+                <td class="text-center">{{ $attendance->atten_total }}</td>
+                <td class="text-center">
+                    <a href="{{ route('attendance.show', $attendance->atten_id) }}" class="btn btn-primary" data-toggle="view" title="ดูข้อมูล">
+                        <i class="fas fa-eye"></i></a>
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

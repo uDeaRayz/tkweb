@@ -18,8 +18,8 @@
         html,
         body{
             font-family: 'Athiti', sans-serif;
-        }
-        
+            background-color: white;
+        }       
     </style>
 </head>
 
@@ -110,7 +110,7 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#00695c ;">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#00695c;">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="navbar-btn " style="background-color:#00695c ;">

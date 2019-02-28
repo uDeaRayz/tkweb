@@ -21,7 +21,8 @@ class CreateWorksTable extends Migration
             $table->unsignedInteger('dist_id');
             $table->unsignedInteger('subdist_id');
             $table->string('detail')->nullable();
-            $table->string('img')->nullable();
+            $table->string('work_img')->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

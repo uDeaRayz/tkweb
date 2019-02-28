@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Storage;
 class ApiController extends Controller
 {
     //Login Funtion
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $user = User::where('email' , $request->email)
             ->first();
         // Check password 
@@ -26,54 +27,62 @@ class ApiController extends Controller
     }
 
     // Function Get Amount
-    public function amount(Request $request){
+    public function amount(Request $request)
+    {
         $amount = AmountLeave::where('user_id', $request->user_id)
                 ->get();
         return response()->json($amount, 200);
     }
 
     // Function Get Province
-    public function province(){
+    public function province()
+    {
         $province = DB::table('provinces')->orderBy('prov_name','asc')->get();
         return response()->json($province, 200);
     }
 
     // Function Get District
-    public function district(Request $request){
+    public function district(Request $request)
+    {
         $district = DB::table('districts')->where('districts.prov_id',$request->prov_id)->get();
         return response()->json($district, 200);
     }
 
     // Function Get Sub District
-    public function subdist(Request $request){
+    public function subdist(Request $request)
+    {
         $subdist = DB::table('subdistricts')->where('subdistricts.dist_id',$request->dist_id)->get();
         return response()->json($subdist, 200);
     }
 
     // Function บันทึกการทำงานนอกพื้นที่
-    public function addWork(Request $request){
-
+    public function addWork(Request $request)
+    {
+        $date = date('Y-m-d');
         $work = Work::create([
             'user_id' => $request['user_id'],
-            'position' => $request['place_name'],
+            'place' => $request['place_name'],
             'prov_id' => $request['province'],
             'dist_id' => $request['dist'],
             'subdist_id' => $request['subdist'],
             'detail' => $request['detail'],
-            'img' => $request['img'],
+            'work_img' => $request['img'],
+            'date' => $date
         ]);
 
-        return response()->json($work, 200);
+        return response()->json($date, 200);
     }
 
     // Function แสดงข้อมูลบันทึกการทำงานนอกพื้นที่
-    public function showWork(Request $request){
+    public function showWork(Request $request)
+    {
         $showWork = DB::table('works')->where('works.user_id',$request->user_id)->get();
         return response()->json($showWork, 200);
     }
 
     // Function บันทึกการลา
-    public function addLeave(Request $request){
+    public function addLeave(Request $request)
+    {
         $addleave = AddLeave::create([
             'user_id' => $request['user_id'],
             'amount_id' => $request['leave_id'],
@@ -111,23 +120,55 @@ class ApiController extends Controller
     }
 
     // Function แสดงข้อมูลบันทึกการลา
-    public function showDayoff(Request $request){
+    public function showDayoff(Request $request)
+    {
         $showDayoff = DB::table('add_leaves')->where('add_leaves.user_id',$request->user_id)->get();
         return response()->json($showDayoff, 200);
     }
 
     // Function บันทึกการเข้าทำงาน
-    public function addAtten(Request $request){
+    public function addIn(Request $request)
+    {
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
         $atten = Attendance::create([
             'user_id' => $request['user_id'],
-            'atten_date' => $request['date'],
-            'atten_time' => $request['time'],
-            'atten_status' => $request['status'],
-            'atten_img' => $request['img'],
+            'atten_date' => $date,
+            'time_in' => $time,
+            'img_in' => $request['img'],
         ]);
         return response()->json($atten, 200);
     }
 
+    // Function บันทึกการออกงาน
+    public function addOut(Request $request)
+    {
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
+
+        DB::table('attendances')
+            ->where('attendances.user_id', $request['user_id'])
+            ->where('attendances.atten_date', $date)
+            ->update([
+                'time_out' => $time,
+                'img_out' => $request['img_out'],
+            ]);
+        
+        $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(HOUR,time_in,time_out) as time'))->where('user_id','=',$request['user_id'])->first();    
+ 
+        DB::table('attendances')
+        ->where('attendances.user_id', $request['user_id'])
+        ->where('attendances.atten_date', $date)
+        ->update([
+            'atten_total' => $time_diff->time
+        ]);
+        $test_atten = Attendance::where('user_id',$request['user_id'])
+                            ->where('attendances.atten_date', $date)
+                            ->first();
+
+        return response()->json($test_atten, 200);
+    }
+    
     // Function แสดงข้อมูลบันทึกการเข้าทำงาน
     public function showTime(Request $request){
         $showTime = DB::table('attendances')->where('attendances.user_id',$request->user_id)->get();

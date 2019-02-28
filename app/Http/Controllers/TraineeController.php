@@ -97,7 +97,7 @@ class TraineeController extends Controller
 				if($value != "")
 				{     
                     $data = AmountLeave::create([
-                        'leave_name' => $value,
+                        'amount_leave' => $value,
                         'amount_num' => $request->amount_num[$key],
                         'user_id' => $trainee->id,
                     ]);                   
@@ -211,7 +211,7 @@ class TraineeController extends Controller
                     DB::table('amount_leaves')
                         ->where('amount_leaves.user_id', $id)
                         ->update([
-                            'leave_name' => $value,
+                            'amount_leave' => $value,
                             'amount_num' => $request->amount_num[$key]
                     ]);
 

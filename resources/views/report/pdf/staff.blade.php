@@ -15,7 +15,7 @@
         }
         table.nodoc{width: 100%; border-collapse: collapse; border-spacing: 0px; }
         table.nodoc th { 
-            font-size: 12pt;  text-align: left;
+            font-size: 14pt;  text-align: left;
             border-top: 1px solid #111;
             border-bottom: 1px solid #111;
             border-right: 1px solid #111; 
@@ -23,7 +23,7 @@
             background-color:#fff;   
         }
         table.nodoc tr { 
-            font-size: 12pt;  text-align: left;
+            font-size: 14pt;  text-align: left;
             border-top: 1px solid #111;
             border-bottom: 1px solid #111;
             border-right: 1px solid #111; 
@@ -31,7 +31,7 @@
             background-color:#fff;   
         }
         table.nodoc td { 
-            font-size: 12pt;  text-align: left;
+            font-size: 14pt;  text-align: left;
             border-top: 1px solid #111;
             border-bottom: 1px solid #111;
             border-right: 1px solid #111; 

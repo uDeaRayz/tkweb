@@ -20,7 +20,7 @@ class CreateAddLeavesTable extends Migration
             $table->string('add_type',1)->nullable();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
-            $table->integer('total')->nullable();
+            $table->float('total', 8, 2)->nullable();
             $table->string('img')->nullable();
             $table->string('detail')->nullable();
             $table->string('status',1)->nullable();

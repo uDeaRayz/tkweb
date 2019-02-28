@@ -150,7 +150,7 @@
                                         <label for="leave" style="font-weight:600;">{{ __('ประเภท') }}</label>
                                     </div>
                                     <div class="col-md">
-                                        <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}" readonly>
+                                        <input type="text" name="leave[]" class="form-control" value="{{ $item->amount_leave }}" readonly>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-bottom:5px;">

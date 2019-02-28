@@ -39,7 +39,7 @@
                                 {{ "นางสาว" }}
                             @endif
                                 {{ $item->fname }} {{ $item->lname }}</td>
-                        <td class="text-center">{{ $item->leave_name }}</td>
+                        <td class="text-center">{{ $item->amount_leave }}</td>
                         <td class="text-center">{{ $item->date_start }} - {{ $item->date_end }}</td>
                         <td class="text-center">
                             @if ($item->add_type == 1)

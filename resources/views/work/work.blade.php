@@ -2,11 +2,10 @@
 @section('title', 'บันทึกการทำงานนอกพื้นที่')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-calendar-check"></i> {{ __('บันทึกการทำงานนอกพื้นที่') }}</h2>
+    <h2 class=" text-primary"><i class="fas fa-calendar-check"></i> {{ __('บันทึกการทำงานนอกพื้นที่') }}</h2>
 @endsection
 
 @section('content')
-
 <div class="table-responsive-md">
     <table class="table table-hover">
         <thead>
@@ -19,61 +18,37 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center">1 01 2562</td>
-                <td class="text-center">นางสาวสุภาวดี เพ็งจันทร์</td>
-                <td class="text-center">บริษัท .....</td>
-                <td class="text-center">ติดตั้งโปรแกรม</td>
-                <td class="text-center">
-                    <button type="button" class="btn btn-primary" data-toggle="view" title="ดูข้อมูล" id="BtnShow"><i
-                            class="fas fa-eye"></i></button>
-                </td>
-            </tr>
+            @foreach ($work as $works)
+                <tr>
+                    <td class="text-center">{{ db2txt($works->date) }}</td>
+                    <td class="text-center">
+                        @if($works->prename == 1)
+                            {{ "นาย" }}
+                        @endif
+                        @if($works->prename == 2)
+                            {{ "นาง" }}
+                        @endif
+                        @if($works->prename == 3)
+                            {{ "นางสาว" }}
+                        @endif
+                            {{ $works->fname }} {{ $works->lname }}
+                    </td>
+                    <td class="text-justify" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">{{ $works->place }} <b>ตำบล</b>{{ $works->subdist_name }} <b>อำเภอ</b>{{ $works->dist_name }} <b>จังหวัด</b>{{ $works->prov_name }}</td>
+                    <td class="text-justify" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">{{ $works->detail }}</td>
+                    <td class="text-center">
+                        <a href="{{ route('work.show',$works->work_id) }}" class="btn btn-primary BtnShow" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
+                    </td>
+                </tr> 
+            @endforeach
         </tbody>
     </table>
 </div>
-
-
-
 @endsection
 
 @section('script')
 <script>
     $(document).ready(function () {
         $('[data-toggle="view"]').tooltip();
-        $("#BtnShow").click(function () {
-            $("#ModalShow").modal();
-        });
     });
-
 </script>
-@endsection
-
-@section('modal')
-
-<div class="modal fade" id="ModalShow" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ __('รูปการทำงานนอกพื้นที่') }}</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td class="t">รูปภาพ</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><img src="{{ asset('img/user.png') }}" alt="" class="img-show"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"> {{ __('ปิด') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

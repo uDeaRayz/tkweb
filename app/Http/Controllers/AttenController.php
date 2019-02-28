@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\AddLeave;
+use App\Attendance;
+use\DB;
 
 class AttenController extends Controller
 {
@@ -14,8 +16,11 @@ class AttenController extends Controller
      */
     public function index()
     {
+        $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->get();
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('attendance.atten',compact('data'));
+        return view('attendance.atten',compact('data','atten'));
     }
 
     /**
@@ -47,7 +52,13 @@ class AttenController extends Controller
      */
     public function show($id)
     {
-        //
+        $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->where('attendances.atten_id', $id)
+                ->first();
+
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('attendance.show',compact('data','atten'));
     }
 
     /**

@@ -81,7 +81,7 @@
                                 <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
                             </div>
                             <div class="col-md">
-                                <p style="color: #111;">{{ $item->leave_name }}</p>
+                                <p style="color: #111;">{{ $item->amount_leave }}</p>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom:5px;">

@@ -41,7 +41,7 @@
 
 @section('content')
     <div>
-        {!! QrCode::size(250)->generate('1876983498998722') !!}
+        {!! QrCode::size(250)->generate($trainee) !!}
     </div>
 @endsection
 

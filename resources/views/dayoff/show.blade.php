@@ -2,7 +2,7 @@
 @section('title', 'ข้อมูลการลา')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลของ 
+<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลการลาของ 
     @if($dayoff->prename == 1)
         {{ "นาย" }}
     @endif
@@ -34,11 +34,11 @@
             <tbody>
                 <tr>
                     <th>ประเภทการลา</th>
-                    <td>{{ $dayoff->leave_name }}</td>
+                    <td>{{ $dayoff->amount_leave }}</td>
                 </tr>
                 <tr>
                     <th>วันที่ลา</th>
-                    <td>{{ $dayoff->date_start }} - {{ $dayoff->date_end }}</td>
+                    <td>{{ db2txt($dayoff->date_start) }} - {{ db2txt($dayoff->date_end) }}</td>
                 </tr>
                 <tr>
                     <th>จำนวนวันลา</th>
@@ -93,7 +93,13 @@
                     </tr>
                     <tr>
                         <th>หมายเหตุ</th>
-                        <td>{{ $dayoff->comment }}</td>
+                        <td>
+                            @if (!$dayoff->resson_id == null)
+                                {{ $resson_com->resson_name }}
+                            @else
+                                {{ $dayoff->comment }}
+                            @endif
+                        </td>
                     </tr>
                 @endif
             </tbody>

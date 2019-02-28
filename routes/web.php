@@ -36,11 +36,29 @@ Route::resource('/resson','RessonController');
 Route::post('/resson-edit','RessonController@fix')->name('edit_resson');
 
 Route::resource('/attendance','AttenController');
+
+
 Route::resource('/work','WorkController');
-Route::resource('/report-staff','ReportStaffController');
+
+
+// Report
+// ----> บันทึกเวลาทำงาน <----
 Route::resource('/report-attendance','ReportAttenController');
+Route::post('/report_atten','ReportAttenController@getData')->name('getAtten');
+Route::post('/atten_pdf','ReportAttenController@pdf_atten')->name('pdf_atten');
+
+// ----> บันทึกการลา <----
 Route::resource('/report-dayoff','ReportDayoffController');
+Route::post('/report_dayoff','ReportDayoffController@getData')->name('getdayoff');
+Route::post('/dayoff_pdf','ReportDayoffController@pdf_dayoff')->name('pdf_dayoff');
+
+
 Route::resource('/report-work','ReportWorkController');
+Route::post('/report_work','ReportWorkController@getData')->name('getwork');
+Route::post('/work_pdf','ReportWorkController@pdf_work')->name('pdf_work');
+
+// ----> ข้อมูลบุคลากร <----
+Route::resource('/report-staff','ReportStaffController');
 Route::get('/report_staffs','ReportStaffController@all_pdf');
 Route::get('/report_staff','ReportStaffController@staff_pdf');
 Route::get('/report_trainee','ReportStaffController@trainee_pdf');

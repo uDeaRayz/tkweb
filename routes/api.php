@@ -28,6 +28,12 @@ Route::post('/showTime','ApiController@showTime');
 Route::post('/showWork','ApiController@showWork');
 Route::post('/add_work','ApiController@addWork');
 
+
+Route::post('/add_in','ApiController@addIn');
+Route::post('/add_out','ApiController@addOut');
+
+
+
 Route::post('/upload_file', 'ApiController@uploadFile');
 
 

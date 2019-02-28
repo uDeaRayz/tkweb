@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\AddLeave;
+use App\Work;
+use DB;
 
 class WorkController extends Controller
 {
@@ -14,8 +16,17 @@ class WorkController extends Controller
      */
     public function index()
     {
+        // $ldate = date('Y-m-d');
+        $work = DB::table('works')
+                ->join('users', 'users.id', '=', 'works.user_id')
+                ->join('provinces', 'provinces.prov_id', '=', 'works.prov_id')
+                ->join('districts', 'districts.dist_id', '=', 'works.dist_id')
+                ->join('subdistricts', 'subdistricts.subdist_id', '=', 'works.subdist_id')
+                ->orderBy('works.date', 'desc')
+                ->get();
+                       
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('work.work',compact('data'));
+        return view('work.work',compact('data','work'));
     }
 
     /**
@@ -47,7 +58,15 @@ class WorkController extends Controller
      */
     public function show($id)
     {
-        //
+        $work = DB::table('works')
+        ->join('users', 'users.id', '=', 'works.user_id')
+        ->join('provinces', 'provinces.prov_id', '=', 'works.prov_id')
+        ->join('districts', 'districts.dist_id', '=', 'works.dist_id')
+        ->join('subdistricts', 'subdistricts.subdist_id', '=', 'works.subdist_id')
+        ->where('works.work_id',$id)
+        ->first();      
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('work.show',compact('data','work'));
     }
 
     /**

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\AddLeave;
+use DB;
+use PDF;
+use Illuminate\Support\Facades\View;
 
 class ReportAttenController extends Controller
 {
@@ -14,8 +17,88 @@ class ReportAttenController extends Controller
      */
     public function index()
     {
+        $start = "";
+        $end = "";
+        $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->paginate(15);
+
         $data = AddLeave::all()->where('status',0)->COUNT('status');
-        return view('report.atten',compact('data'));
+        return view('report.atten',compact('data','atten','start','end'));
+    }
+
+    public function getData(Request $request)
+    {
+        $start = $request->start;
+        $end = $request->end;
+        if ($request->start == "" && $request->end == "") {
+            $atten = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->orderBy('attendances.atten_date', 'asc')
+            ->paginate(15); 
+        }
+        elseif($request->start == "" && !$request->end == ""){
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->where('attendances.atten_date' , '<=' , $request->end)
+                ->orderBy('attendances.atten_date', 'asc')
+                ->paginate(15);
+        }
+        elseif($request->end == "" && !$request->start == ""){
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->where('attendances.atten_date','>=',$request->start)
+                ->orderBy('attendances.atten_date', 'asc')
+                ->paginate(15);
+        }
+        else {
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->whereBetween('attendances.atten_date',[$request->start,$request->end])
+                ->orderBy('attendances.atten_date', 'asc')
+                ->paginate(15);
+        }
+        $data = AddLeave::all()->where('status',0)->COUNT('status');
+        return view('report.atten',compact('data','atten','start','end'));
+    }
+
+    public function pdf_atten(Request $request)
+    {
+        $start = $request->start;
+        $end = $request->end;
+        if ($request->start == "" && $request->end == "") {
+            $atten = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->orderBy('attendances.atten_date', 'asc')
+            ->get(); 
+        }
+        elseif($request->start == "" && !$request->end == ""){
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->where('attendances.atten_date' , '<=' , $request->end)
+                ->orderBy('attendances.atten_date', 'asc')
+                ->get();
+        }
+        elseif($request->end == "" && !$request->start == ""){
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->where('attendances.atten_date','>=',$request->start)
+                ->orderBy('attendances.atten_date', 'asc')
+                ->get();
+        }
+        else {
+            $atten = DB::table('attendances')
+                ->join('users', 'users.id', '=', 'attendances.user_id')
+                ->whereBetween('attendances.atten_date',[$request->start,$request->end])
+                ->orderBy('attendances.atten_date', 'asc')
+                ->get();
+        }
+        
+        $data = [
+            'foo' => 'bar',
+        ];
+        $pdf = PDF::loadView('report.pdf.attendance', $data,compact('atten','start','end'));
+        return $pdf->stream('attendance.pdf');
     }
 
     /**
