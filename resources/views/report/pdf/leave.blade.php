@@ -110,37 +110,38 @@
                     {{ $data->fname }} {{ $data->lname }}
                 </td>
                 <td style="padding:3px 7px 3px 3px; text-align: center;">{{ $data->amount_leave }}</td>
-                <td style="padding:3px 7px 3px 3px; text-align: center;">{{ db2txt($data->date_start) }} - {{ db2txt($data->date_end) }}</td>
+                <td style="padding:3px 7px 3px 3px; text-align: center;">{{ db2txt($data->date_start) }} -
+                    {{ db2txt($data->date_end) }}</td>
                 <td style="padding:3px 7px 3px 3px; text-align: center;">
                     @if ($data->add_type == 1)
-                        {{ __('ครึ่งวันเช้า') }}
+                    {{ __('ครึ่งวันเช้า') }}
                     @endif
                     @if ($data->add_type == 2)
-                        {{ __('ครึ่งวันบ่าย') }}
+                    {{ __('ครึ่งวันบ่าย') }}
                     @endif
                     @if ($data->add_type == 3)
-                        {{ $data->total }} วัน
+                    {{ $data->total }} วัน
                     @endif
                 </td>
                 <td style="padding:3px 7px 3px 3px; text-align: center;">{{ $data->detail }}</td>
                 <td style="padding:3px 7px 3px 3px; text-align: center;">
                     @if ($data->status == 0)
-                        {{ __('รอการอนุมัติ') }}
+                    {{ __('รอการอนุมัติ') }}
                     @endif
                     @if ($data->status == 1)
-                        {{ __('อนุมัติ') }}
+                    {{ __('อนุมัติ') }}
                     @endif
                     @if ($data->status == 2)
-                        {{ __('ไม่อนุมัติ') }}
+                    {{ __('ไม่อนุมัติ') }}
                     @endif
                 </td>
                 <td style="padding:3px 7px 3px 3px; text-align: center;">
                     @if (!$data->resson_id == '')
-                        @foreach ($resson as $ressons)
-                            {{ $ressons->resson_name }}
-                        @endforeach
+                    @foreach ($resson as $ressons)
+                    {{ $ressons->resson_name }}
+                    @endforeach
                     @else
-                        {{ $data->comment }}  
+                    {{ $data->comment }}
                     @endif
                 </td>
             </tr>
@@ -150,7 +151,7 @@
     <htmlpagefooter name="page-footer">
         <hr>
         รายงานบันทึกการลา ประเภท {{ $leave }}
-        
+
     </htmlpagefooter>
 </body>
 

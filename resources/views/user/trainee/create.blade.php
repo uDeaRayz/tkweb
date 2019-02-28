@@ -7,7 +7,8 @@
 
 @section('content')
 <div class="d-flex add-btn">
-    <a href="{{ route('trainee.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('trainee.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i>
+        {{ __('ย้อนกลับ') }}</a>
 </div>
 <form action="{{ route('trainee.store') }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -57,8 +58,9 @@
                     <p class="text-dark">{{ __('สกุล') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="text" name="lname" class="form-control {{ $errors->has('lname') ? ' is-invalid' : '' }}"
-                        value="{{ old('lname') }}" required>
+                    <input type="text" name="lname"
+                        class="form-control {{ $errors->has('lname') ? ' is-invalid' : '' }}" value="{{ old('lname') }}"
+                        required>
                     @if ($errors->has('lname'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $errors->first('lname') }}</strong>
@@ -91,9 +93,9 @@
                     <input type="text" name="phone" class="form-control ">
                 </div>
                 @if ($errors->has('phone'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('phone') }}</strong>
-                    </span>
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('phone') }}</strong>
+                </span>
                 @endif
             </div>
             <div class="row form-staff-margin">
@@ -107,8 +109,9 @@
                     <p class="text-dark">{{ __('Email') }}</p>
                 </div>
                 <div class="col-md">
-                    <input type="email" name="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"
-                        value="{{ old('email') }}" required>
+                    <input type="email" name="email"
+                        class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}"
+                        required>
                     @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $errors->first('email') }}</strong>
@@ -143,7 +146,8 @@
                                     <label for="leave" style="font-weight:600;">{{ __('ประเภท') }}</label>
                                 </div>
                                 <div class="col-md">
-                                    <input type="text" name="leave[]" class="form-control" value="{{ $item->leave_name }}">
+                                    <input type="text" name="leave[]" class="form-control"
+                                        value="{{ $item->leave_name }}">
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:5px;">
@@ -151,7 +155,8 @@
                                     <label for="amount_num" style="font-weight:600;">{{ __('จำนวน (วัน/ปี)') }}</label>
                                 </div>
                                 <div class="col-md">
-                                    <input type="text" name="amount_num[]" class="form-control" value="{{ $item->leave_num }}">
+                                    <input type="text" name="amount_num[]" class="form-control"
+                                        value="{{ $item->leave_num }}">
                                 </div>
                             </div>
                         </div>

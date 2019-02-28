@@ -13,6 +13,11 @@
             <button class="btn btn-primary" data-toggle="modal" data-target="#AddData"><i class="fas fa-plus"></i> {{
                 __('เพิ่มเหตุผล') }}</button>
         </div>
+        @if (count($resson) === 0)
+        <div class="text-center">
+            <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+        </div>
+        @else
         <div class="table-responsive-md">
             @if (session('del'))
             <div class="alert alert-warning">
@@ -45,14 +50,17 @@
                         <td class="text-center">{{ $item->leave_name }}</td>
                         <td class="text-center">{{ $item->resson_name }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"  data-id="{{ $item->resson_id }}" data-name="{{ $item->resson_name }}"><i
+                            <button type="button" class="btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล"
+                                id="BtnEdit" data-id="{{ $item->resson_id }}" data-name="{{ $item->resson_name }}"><i
                                     class="fas fa-pencil-alt"></i></button>
                         </td>
                         <td class="text-center" width="20px;">
-                            <form action="{{ route('resson.destroy',$item->resson_id) }}" method="post" class="delete_form">
+                            <form action="{{ route('resson.destroy',$item->resson_id) }}" method="post"
+                                class="delete_form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del" title="ลบข้อมูล">
+                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del"
+                                    title="ลบข้อมูล">
                                     <i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
@@ -64,6 +72,7 @@
                 {{ $resson->links() }}
             </div>
         </div>
+        @endif
     </div>
 </div>
 
@@ -82,12 +91,12 @@
                 return false;
             }
         });
-        $(".BtnEdit").click(function(){
+        $(".BtnEdit").click(function () {
             $(".modalEdit").modal();
             var id = $(this).data('id');
             var resson_name = $(this).data('name');
-            $(".modal-body #id").val( id );
-            $(".modal-body #resson_name").val( resson_name );
+            $(".modal-body #id").val(id);
+            $(".modal-body #resson_name").val(resson_name);
         });
     });
 
@@ -110,7 +119,8 @@
                         <select class="form-control" id="leave_id" name="leave_id">
                             <option>เลือกประเภทการลา</option>
                             @foreach ($dayoff as $item)
-                            <option name="{{ $item->leave_id }}" value="{{ $item->leave_id }}">{{ $item->leave_name }}</option>
+                            <option name="{{ $item->leave_id }}" value="{{ $item->leave_id }}">{{ $item->leave_name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -132,24 +142,24 @@
 <div class="modal fade modalEdit" id="modalEdit">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
-            <button type="button" class="close" data-dismiss="modal">×</button>
-        </div>
-        <form action="{{ route('edit_resson')}}" method="POST">
-            @csrf
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="resson_name" style="font-weight:600;">{{ __('เหตุผล') }}</label>
-                    <input type="text" class="form-control" name="resson_name" id="resson_name" value="">
-                    <input type="hidden" class="form-control" name="resson_id" id="id">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <form action="{{ route('edit_resson')}}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="resson_name" style="font-weight:600;">{{ __('เหตุผล') }}</label>
+                        <input type="text" class="form-control" name="resson_name" id="resson_name" value="">
+                        <input type="hidden" class="form-control" name="resson_id" id="id">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-danger">บันทึก</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">บันทึก</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

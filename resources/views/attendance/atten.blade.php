@@ -6,7 +6,11 @@
 @endsection
 
 @section('content')
-
+@if (count($atten) === 0)
+<div class="text-center">
+    <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+</div>
+@else
 <div class="table-responsive-md">
     <table class="table table-hover">
         <thead>
@@ -25,21 +29,22 @@
                 <td class="text-center">{{ db2txt($attendance->atten_date) }}</td>
                 <td class="text-center">
                     @if($attendance->prename == 1)
-                        {{ "นาย" }}
+                    {{ "นาย" }}
                     @endif
                     @if($attendance->prename == 2)
-                        {{ "นาง" }}
+                    {{ "นาง" }}
                     @endif
                     @if($attendance->prename == 3)
-                        {{ "นางสาว" }}
+                    {{ "นางสาว" }}
                     @endif
-                        {{ $attendance->fname }} {{ $attendance->lname }}
+                    {{ $attendance->fname }} {{ $attendance->lname }}
                 </td>
                 <td class="text-center">{{ $attendance->time_in }}</td>
                 <td class="text-center">{{ $attendance->time_out }}</td>
                 <td class="text-center">{{ $attendance->atten_total }}</td>
                 <td class="text-center">
-                    <a href="{{ route('attendance.show', $attendance->atten_id) }}" class="btn btn-primary" data-toggle="view" title="ดูข้อมูล">
+                    <a href="{{ route('attendance.show', $attendance->atten_id) }}" class="btn btn-primary"
+                        data-toggle="view" title="ดูข้อมูล">
                         <i class="fas fa-eye"></i></a>
                 </td>
             </tr>
@@ -47,7 +52,7 @@
         </tbody>
     </table>
 </div>
-
+@endif
 
 
 @endsection

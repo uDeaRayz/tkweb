@@ -8,22 +8,23 @@
 @section('content')
 
 <form action="{{ route('getdayoff') }}" method="post">
-<div class="d-flex justify-content-center mb-3">
-    <div class="p-2">
-        <label for="leave" style="font-weight:600;">{{ __('แสดงข้อมูลจาก') }}</label>
-    </div>
-    <div class="p-2">
-        @csrf
-        <select class="form-control" id="leave" name="leave">
-            <option value="" @if ($leave == '') {{ __('selected') }}@endif>{{ __('ประเภทการลาทั้งหมด') }}</option>
-            @foreach ($dayoff as $item)
-                <option value="{{ $item->leave_name }}" @if ($leave==$item->leave_name ) {{ __('selected') }}@endif>{{ $item->leave_name }}</option>
-            @endforeach
-        </select>
-    </div> 
-    <div class="p-2">
-        <button class="btn btn-primary"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>
-    </div>
+    <div class="d-flex justify-content-center mb-3">
+        <div class="p-2">
+            <label for="leave" style="font-weight:600;">{{ __('แสดงข้อมูลจาก') }}</label>
+        </div>
+        <div class="p-2">
+            @csrf
+            <select class="form-control" id="leave" name="leave">
+                <option value="" @if ($leave=='' ) {{ __('selected') }}@endif>{{ __('ประเภทการลาทั้งหมด') }}</option>
+                @foreach ($dayoff as $item)
+                <option value="{{ $item->leave_name }}" @if ($leave==$item->leave_name )
+                    {{ __('selected') }}@endif>{{ $item->leave_name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="p-2">
+            <button class="btn btn-primary"><i class="fas fa-search"></i> {{ __('ค้นหา') }}</button>
+        </div>
 </form>
 <form method="post" action="{{ route('pdf_dayoff') }}">
     @csrf
@@ -34,6 +35,11 @@
 </form>
 </div>
 
+@if (count($leaves) === 0)
+<div class="text-center">
+    <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+</div>
+@else
 <div class="table-responsive-md">
     <table class="table table-bordered">
         <thead>
@@ -55,48 +61,48 @@
                 <td class="text-center">{{ $item->amount_leave }}</td>
                 <td class="text-center">
                     @if($item->prename == 1)
-                        {{ "นาย" }}
+                    {{ "นาย" }}
                     @endif
                     @if($item->prename == 2)
-                        {{ "นาง" }}
+                    {{ "นาง" }}
                     @endif
                     @if($item->prename == 3)
-                        {{ "นางสาว" }}
+                    {{ "นางสาว" }}
                     @endif
                     {{ $item->fname }} {{ $item->lname }}
                 </td>
                 <td class="text-center">{{ db2txt($item->date_start) }} {{ __('-') }} {{ db2txt($item->date_end) }}</td>
                 <td class="text-center">
                     @if ($item->add_type == 1)
-                        {{ __('ครึ่งวันเช้า') }}
+                    {{ __('ครึ่งวันเช้า') }}
                     @endif
                     @if ($item->add_type == 2)
-                        {{ __('ครึ่งวันบ่าย') }}
+                    {{ __('ครึ่งวันบ่าย') }}
                     @endif
                     @if ($item->add_type == 3)
-                        {{ $item->total }} วัน
+                    {{ $item->total }} วัน
                     @endif
-                    
+
                 </td>
                 <td class="text-center">{{ $item->detail }}</td>
                 <td class="text-center">
                     @if ($item->status == 0)
-                        {{ __('รอการอนุมัติ') }}
+                    {{ __('รอการอนุมัติ') }}
                     @endif
                     @if ($item->status == 1)
-                        {{ __('อนุมัติ') }}
+                    {{ __('อนุมัติ') }}
                     @endif
                     @if ($item->status == 2)
-                        {{ __('ไม่อนุมัติ') }}
+                    {{ __('ไม่อนุมัติ') }}
                     @endif
                 </td>
                 <td class="text-center">
                     @if (!$item->resson_id == '')
-                        @foreach ($resson as $ressons)
-                            {{ $ressons->resson_name }}
-                        @endforeach
+                    @foreach ($resson as $ressons)
+                    {{ $ressons->resson_name }}
+                    @endforeach
                     @else
-                        {{ $item->comment }}  
+                    {{ $item->comment }}
                     @endif
                 </td>
             </tr>
@@ -105,12 +111,13 @@
     </table>
     {{ $leaves->links() }}
 </div>
+@endif
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function{
+<script>
+    $(document).ready(function{
 
-        });
-    </script>
+    });
+</script>
 @endsection

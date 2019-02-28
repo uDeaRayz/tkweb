@@ -17,20 +17,21 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <style>
         html,
-        body{
+        body {
             font-family: 'Athiti', sans-serif;
             background-color: white;
-        }       
+        }
     </style>
 </head>
 
 <body>
- 
+
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a href="{{ url('/home') }}" class=" btn article" style="width:200px; font-size:20px; font-weight:700;">Dash board</a>
+                <a href="{{ url('/home') }}" class=" btn article"
+                    style="width:200px; font-size:20px; font-weight:700;">Dash board</a>
             </div>
 
             <ul class="list-unstyled components">
@@ -61,11 +62,11 @@
                 </li>
                 <li class="li">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-calendar-day"></i> บันทึกการลา 
+                        <i class="fas fa-calendar-day"></i> บันทึกการลา
                         @if ($data > 0)
-                            <span class="badge badge-warning">
-                                {{ $data }}
-                            </span>
+                        <span class="badge badge-warning">
+                            {{ $data }}
+                        </span>
                         @endif
                     </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
@@ -120,16 +121,16 @@
                         <span></span>
                     </button>
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        
+
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item ">
-                                
+
                             </li>
                             <li class="nav-item text-white">
                                 <a class="nav-link text-white user">
@@ -139,16 +140,18 @@
                                     @if(Auth::user()->prename == 3) {{ __('นางสาว') }}@endif
                                     {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                                 </a>
-                            </li> 
-                            <li>
-                               <h2 class="text-white">|</h2>
                             </li>
                             <li>
-                                <a class="nav-link text-white user" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <h2 class="text-white">|</h2>
+                            </li>
+                            <li>
+                                <a class="nav-link text-white user" href=""
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
                                 </form>
                             </li>
                         </ul>
@@ -160,7 +163,7 @@
                 <div class="container subtitle">
                     @yield('subtitle')
                 </div>
-                
+
                 <div class="container">
                     @yield('content')
                 </div>
@@ -182,8 +185,8 @@
             });
         });
     </script>
-        @yield('script')
-    
+    @yield('script')
+
 </body>
 
 @yield('modal')

@@ -2,12 +2,13 @@
 @section('title', 'บันทึกการเข้างาน')
 
 @section('subtitle')
-    <h2 class=" text-primary"><i class="fas fa-user"></i> บันทึกการเข้างาน</h2>
+<h2 class=" text-primary"><i class="fas fa-user"></i> บันทึกการเข้างาน</h2>
 @endsection
 
 @section('content')
 <div class="d-flex add-btn">
-    <a href="{{ route('attendance.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('attendance.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i>
+        {{ __('ย้อนกลับ') }}</a>
 </div>
 <div class="row justify-content-center show-data">
     <div class="col-md-10">
@@ -18,15 +19,15 @@
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td class="sub-title">
                         @if($atten->prename == 1)
-                            {{ "นาย" }}
+                        {{ "นาย" }}
                         @endif
                         @if($atten->prename == 2)
-                            {{ "นาง" }}
+                        {{ "นาง" }}
                         @endif
                         @if($atten->prename == 3)
-                            {{ "นางสาว" }}
+                        {{ "นางสาว" }}
                         @endif
-                            {{ $atten->fname }} {{ $atten->lname }}
+                        {{ $atten->fname }} {{ $atten->lname }}
                     </td>
                 </tr>
                 <tr>
@@ -55,9 +56,9 @@
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td class="sub-title">
                         @if (!$atten->img_in== null)
-                            <img src="{{ asset($atten->img_in) }}" class="img-show">
+                        <img src="{{ asset($atten->img_in) }}" class="img-show">
                         @else
-                            <img src="{{ asset('img/noimg.png') }}" class="img-show">
+                        <img src="{{ asset('img/noimg.png') }}" class="img-show">
                         @endif
                     </td>
                 </tr>
@@ -66,27 +67,21 @@
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td class="sub-title">
                         @if (!$atten->img_out== null)
-                            <img src="{{ asset($atten->img_out) }}" class="img-show">
+                        <img src="{{ asset($atten->img_out) }}" class="img-show">
                         @else
-                            <img src="{{ asset('img/noimg.png') }}" class="img-show">
+                        <img src="{{ asset('img/noimg.png') }}" class="img-show">
                         @endif
                     </td>
                 </tr>
             </tbody>
-        </table> 
+        </table>
         <div class="row">
             <div class="col-md text-center">
-                
+
             </div>
             <div class="col-md">
             </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('script')
-<script>
-
-</script>
 @endsection

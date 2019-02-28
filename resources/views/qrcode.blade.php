@@ -35,7 +35,8 @@
                 </div>
                 <br>
                 <br>
-                <a href="{{ url('/login') }}" class="btn btn-warning" style="font-size:14pt; font-weight:600;"><i class="fas fa-hand-point-left"></i> {{ __('ย้อนกลับ') }}</a>
+                <a href="{{ url('/login') }}" class="btn btn-warning" style="font-size:14pt; font-weight:600;"><i
+                        class="fas fa-hand-point-left"></i> {{ __('ย้อนกลับ') }}</a>
             </div>
         </div>
     </div>

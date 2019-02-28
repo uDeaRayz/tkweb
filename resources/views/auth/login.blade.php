@@ -71,7 +71,8 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary btn-md" style="font-size:14pt; width:200px;">
+                                    <button type="submit" class="btn btn-primary btn-md"
+                                        style="font-size:14pt; width:200px;">
                                         {{ __('Login') }}
                                     </button>
                                 </div>
@@ -80,7 +81,8 @@
                     </div>
                     <br>
                     <br>
-                    <a href="{{ route('gendata') }}" class="btn btn-warning" style="font-size:18pt; font-weight:600;"><i class="fas fa-qrcode"></i> {{ __('QRCODE') }}</a>
+                    <a href="{{ route('gendata') }}" class="btn btn-warning" style="font-size:18pt; font-weight:600;"><i
+                            class="fas fa-qrcode"></i> {{ __('QRCODE') }}</a>
                 </div>
             </div>
         </div>

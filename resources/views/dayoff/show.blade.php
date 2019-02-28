@@ -2,30 +2,32 @@
 @section('title', 'ข้อมูลการลา')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลการลาของ 
+<h2 class=" text-primary"><i class="fas fa-user"></i> ข้อมูลการลาของ
     @if($dayoff->prename == 1)
-        {{ "นาย" }}
+    {{ "นาย" }}
     @endif
     @if($dayoff->prename == 2)
-        {{ "นาง" }}
+    {{ "นาง" }}
     @endif
     @if($dayoff->prename == 3)
-        {{ "นางสาว" }}
+    {{ "นางสาว" }}
     @endif
-        {{ $dayoff->fname }} {{ $dayoff->lname }}
+    {{ $dayoff->fname }} {{ $dayoff->lname }}
 </h2>
 @endsection
 
 @section('content')
 <div class="d-flex add-btn">
     @if ($dayoff->status == 0)
-        <a href="{{ route('dayoff.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('dayoff.index') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i>
+        {{ __('ย้อนกลับ') }}</a>
     @endif
     @if ($dayoff->status == 1)
-        <a href="{{ route('allow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('allow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
     @endif
     @if ($dayoff->status == 2)
-        <a href="{{ route('notallow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i> {{ __('ย้อนกลับ') }}</a>
+    <a href="{{ route('notallow') }}" class="btn btn-danger"><i class="fas fa-chevron-left"></i>
+        {{ __('ย้อนกลับ') }}</a>
     @endif
 </div>
 <div class="row justify-content-center show-data">
@@ -43,13 +45,13 @@
                 <tr>
                     <th>จำนวนวันลา</th>
                     <td>@if ($dayoff->add_type == 1)
-                            {{ __('ครึ่งวันเช้า') }}
+                        {{ __('ครึ่งวันเช้า') }}
                         @endif
                         @if ($dayoff->add_type == 2)
-                            {{ __('ครึ่งวันบ่าย') }}
+                        {{ __('ครึ่งวันบ่าย') }}
                         @endif
                         @if ($dayoff->add_type == 3)
-                            {{ $dayoff->total }} วัน
+                        {{ $dayoff->total }} วัน
                         @endif
                     </td>
                 </tr>
@@ -61,46 +63,46 @@
                     <th>รูปภาพ</th>
                     <td>
                         @if ($dayoff->img == null)
-                            <img src="{{ asset('img/user.png') }}">
+                        <img src="{{ asset('img/user.png') }}">
                         @endif
                     </td>
                 </tr>
                 @if ($dayoff->status == 0)
-                    <tr>
-                        <th>จัดการ</th>
-                        <td>
-                            <button type="button" class="btn btn-success" id="allow" data-dismiss="modal">
-                                <i class="fas fa-check"></i> {{ __('อนุมัติ') }}</button>
-                            <button type="button" class="btn btn-warning" id="notallow" data-dismiss="modal">
-                                <i class="fas fa-ban"></i> {{ __('ไม่อนุมัติ') }}</button>
-                        </td>
-                    </tr>
+                <tr>
+                    <th>จัดการ</th>
+                    <td>
+                        <button type="button" class="btn btn-success" id="allow" data-dismiss="modal">
+                            <i class="fas fa-check"></i> {{ __('อนุมัติ') }}</button>
+                        <button type="button" class="btn btn-warning" id="notallow" data-dismiss="modal">
+                            <i class="fas fa-ban"></i> {{ __('ไม่อนุมัติ') }}</button>
+                    </td>
+                </tr>
                 @endif
                 @if ($dayoff->status == 1)
-                    <tr>
-                        <th>สถานะ</th>
-                        <td>
-                            <label class="text-info" style="font-weight:bold;">{{ __('ผ่านอนุมัติ') }}</label>
-                        </td>
-                    </tr>
+                <tr>
+                    <th>สถานะ</th>
+                    <td>
+                        <label class="text-info" style="font-weight:bold;">{{ __('ผ่านอนุมัติ') }}</label>
+                    </td>
+                </tr>
                 @endif
                 @if ($dayoff->status == 2)
-                    <tr>
-                        <th>สถานะ</th>
-                        <td>
-                            <label class="text-danger" style="font-weight:bold;">{{ __('ไม่ผ่านอนุมัติ') }}</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>หมายเหตุ</th>
-                        <td>
-                            @if (!$dayoff->resson_id == null)
-                                {{ $resson_com->resson_name }}
-                            @else
-                                {{ $dayoff->comment }}
-                            @endif
-                        </td>
-                    </tr>
+                <tr>
+                    <th>สถานะ</th>
+                    <td>
+                        <label class="text-danger" style="font-weight:bold;">{{ __('ไม่ผ่านอนุมัติ') }}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>หมายเหตุ</th>
+                    <td>
+                        @if (!$dayoff->resson_id == null)
+                        {{ $resson_com->resson_name }}
+                        @else
+                        {{ $dayoff->comment }}
+                        @endif
+                    </td>
+                </tr>
                 @endif
             </tbody>
         </table>
@@ -111,11 +113,11 @@
 
 @section('script')
 <script>
-    $(document).ready(function(){
-        $("#allow").click(function (){
+    $(document).ready(function () {
+        $("#allow").click(function () {
             $("#Modalallow").modal();
         });
-        $("#notallow").click(function (){
+        $("#notallow").click(function () {
             $("#Modalnot").modal();
         });
 
@@ -170,9 +172,9 @@
                     <div class="form-group">
                         <label for="resson_id" style="font-weight:600;">{{ __('เหตุผล') }}</label>
                         <select class="form-control" id="resson_id" name="resson_id">
-                          <option value="">เลือกเหตุผล</option>
+                            <option value="">เลือกเหตุผล</option>
                             @foreach ($resson as $ressons)
-                                <option value="{{ $ressons->resson_id }}">{{ $ressons->resson_name }}</option>
+                            <option value="{{ $ressons->resson_id }}">{{ $ressons->resson_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -191,4 +193,3 @@
     </div>
 </div>
 @endsection
-

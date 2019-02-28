@@ -8,7 +8,8 @@
 @section('content')
 
 <div class="d-flex flex-row-reverse add-btn">
-    <a href="{{ route ('admin.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ __('ผู้ดูแลระบบ') }}</a>
+    <a href="{{ route ('admin.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
+        {{ __('ผู้ดูแลระบบ') }}</a>
 </div>
 @if (session('Status'))
 <div class="alert alert-success">
@@ -20,6 +21,11 @@
     <p class="text-success">{{ session('del') }}</p>
 </div>
 @endif
+@if (count($admin) === 0)
+<div class="text-center">
+    <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+</div>
+@else
 <div class="table-responsive-md">
     <table class="table table-hover ">
         <thead>
@@ -36,22 +42,23 @@
                 <td class="text-center">{{ $key + 1 }}</td>
                 <td>
                     @if($item->prename == 1)
-                        {{ "นาย" }}
+                    {{ "นาย" }}
                     @endif
                     @if($item->prename == 2)
-                        {{ "นาง" }}
+                    {{ "นาง" }}
                     @endif
                     @if($item->prename == 3)
-                        {{ "นางสาว" }}
+                    {{ "นางสาว" }}
                     @endif
-                        {{ $item->fname }} {{ $item->lname }}
+                    {{ $item->fname }} {{ $item->lname }}
                 </td>
                 <td class="text-center">{{ $item->email }}</td>
                 <td class="text-center">
                     <form action="{{ route('admin.destroy',$item->id) }}" method="post" class="delete_form">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger" data-toggle="del" title="ลบข้อมูล"><i class="fas fa-trash-alt"></i></button>
+                        <button type="submit" class="btn btn-danger" data-toggle="del" title="ลบข้อมูล"><i
+                                class="fas fa-trash-alt"></i></button>
                     </form>
                 </td>
             </tr>
@@ -59,7 +66,7 @@
         </tbody>
     </table>
 </div>
-
+@endif
 
 @endsection
 

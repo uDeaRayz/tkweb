@@ -36,6 +36,11 @@
     </div>
 </form>
 </div>
+@if (count($work) === 0)
+<div class="text-center">
+    <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+</div>
+@else
 <div class="table-responsive-md">
     <table class="table table-bordered">
         <thead>
@@ -48,34 +53,38 @@
         </thead>
         <tbody>
             @foreach ($work as $works)
-                <tr>
-                    <td class="text-center">{{ db2txt($works->date) }}</td>
-                    <td class="text-center">
-                        @if($works->prename == 1)
-                            {{ "นาย" }}
-                        @endif
-                        @if($works->prename == 2)
-                            {{ "นาง" }}
-                        @endif
-                        @if($works->prename == 3)
-                            {{ "นางสาว" }}
-                        @endif
-                            {{ $works->fname }} {{ $works->lname }}
-                    </td>
-                    <td class="text-left" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">{{ $works->place }} <br> ตำบล{{ $works->subdist_name }} &nbsp;&nbsp;&nbsp;อำเภอ{{ $works->dist_name }} &nbsp;&nbsp;&nbsp;จังหวัด{{ $works->prov_name }}</td>
-                    <td class="text-left" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">{{ $works->detail }}</td>
-                </tr> 
+            <tr>
+                <td class="text-center">{{ db2txt($works->date) }}</td>
+                <td class="text-center">
+                    @if($works->prename == 1)
+                    {{ "นาย" }}
+                    @endif
+                    @if($works->prename == 2)
+                    {{ "นาง" }}
+                    @endif
+                    @if($works->prename == 3)
+                    {{ "นางสาว" }}
+                    @endif
+                    {{ $works->fname }} {{ $works->lname }}
+                </td>
+                <td class="text-left" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">
+                    {{ $works->place }} <br> ตำบล{{ $works->subdist_name }}
+                    &nbsp;&nbsp;&nbsp;อำเภอ{{ $works->dist_name }} &nbsp;&nbsp;&nbsp;จังหวัด{{ $works->prov_name }}</td>
+                <td class="text-left" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">
+                    {{ $works->detail }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
     {{ $work->links() }}
 </div>
+@endif
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function{
+<script>
+    $(document).ready(function{
 
-        });
-    </script>
+    });
+</script>
 @endsection

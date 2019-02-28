@@ -8,11 +8,16 @@
 @section('content')
 
 <div style="border: 2px solid #eeeeee; box-shadow: 1px 1px #e0e0e0; margin:20px;">
+    @if (count($leave) === 0)
+    <div class="text-center">
+        <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+    </div>
+    @else
     <div class="table-responsive-md">
         @if (session('update'))
-            <div class="alert alert-info">
-                <p class="text-success">{{ session('update') }}</p>
-            </div>
+        <div class="alert alert-info">
+            <p class="text-success">{{ session('update') }}</p>
+        </div>
         @endif
         <table class="table table-hover">
             <thead>
@@ -27,42 +32,44 @@
             </thead>
             <tbody>
                 @foreach ($leave as $key => $item)
-                    <tr>
-                        <td class="text-center">
-                            @if($item->prename == 1)
-                                {{ "นาย" }}
-                            @endif
-                            @if($item->prename == 2)
-                                {{ "นาง" }}
-                            @endif
-                            @if($item->prename == 3)
-                                {{ "นางสาว" }}
-                            @endif
-                                {{ $item->fname }} {{ $item->lname }}</td>
-                        <td class="text-center">{{ $item->amount_leave }}</td>
-                        <td class="text-center">{{ $item->date_start }} - {{ $item->date_end }}</td>
-                        <td class="text-center">
-                            @if ($item->add_type == 1)
-                                {{ __('ครึ่งวันเช้า') }}
-                            @endif
-                            @if ($item->add_type == 2)
-                                {{ __('ครึ่งวันบ่าย') }}
-                            @endif
-                            @if ($item->add_type == 3)
-                                {{ $item->total }} วัน
-                            @endif
-                        </td>
-                        <td class="text-center">{{ $item->detail }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('dayoff.show',$item->add_id) }}" class="btn btn-info" data-toggle="view" title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="text-center">
+                        @if($item->prename == 1)
+                        {{ "นาย" }}
+                        @endif
+                        @if($item->prename == 2)
+                        {{ "นาง" }}
+                        @endif
+                        @if($item->prename == 3)
+                        {{ "นางสาว" }}
+                        @endif
+                        {{ $item->fname }} {{ $item->lname }}</td>
+                    <td class="text-center">{{ $item->amount_leave }}</td>
+                    <td class="text-center">{{ $item->date_start }} - {{ $item->date_end }}</td>
+                    <td class="text-center">
+                        @if ($item->add_type == 1)
+                        {{ __('ครึ่งวันเช้า') }}
+                        @endif
+                        @if ($item->add_type == 2)
+                        {{ __('ครึ่งวันบ่าย') }}
+                        @endif
+                        @if ($item->add_type == 3)
+                        {{ $item->total }} วัน
+                        @endif
+                    </td>
+                    <td class="text-center">{{ $item->detail }}</td>
+                    <td class="text-center">
+                        <a href="{{ route('dayoff.show',$item->add_id) }}" class="btn btn-info" data-toggle="view"
+                            title="ดูข้อมูล"><i class="fas fa-eye"></i></a>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
 
+@endif
 @endsection
 
 @section('script')
@@ -72,4 +79,3 @@
     });
 </script>
 @endsection
-

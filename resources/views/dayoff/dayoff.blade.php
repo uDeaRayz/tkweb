@@ -13,6 +13,11 @@
             <button class="btn btn-primary" data-toggle="modal" data-target="#create"><i class="fas fa-plus"></i> {{
                 __('เพิ่มการลา') }}</button>
         </div>
+        @if (count($dayoff) === 0)
+        <div class="text-center">
+            <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
+        </div>
+        @else
         <div class="table-responsive-md">
             @if (session('del'))
             <div class="alert alert-warning">
@@ -45,17 +50,19 @@
                         <td class="text-center">{{ $item->leave_name }}</td>
                         <td class="text-center">{{ $item->leave_num }}</td>
                         <td class="text-center">
-                            <button class="edit-modal btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล" id="BtnEdit"
-                                data-id="{{ $item->leave_id }}" data-name="{{ $item->leave_name }}" data-num="{{ $item->leave_num }}" data-target="#EditData">
+                            <button class="edit-modal btn btn-warning BtnEdit" data-toggle="edit" title="แก้ไขข้อมูล"
+                                id="BtnEdit" data-id="{{ $item->leave_id }}" data-name="{{ $item->leave_name }}"
+                                data-num="{{ $item->leave_num }}" data-target="#EditData">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
                         </td>
                         <td class="text-center" width="20px;">
-                            <form action="{{ route('dayoff-type.destroy',$item->leave_id) }}" method="post" class="delete_form">
+                            <form action="{{ route('dayoff-type.destroy',$item->leave_id) }}" method="post"
+                                class="delete_form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del" title="ลบข้อมูล"><i
-                                        class="fas fa-trash-alt"></i></button>
+                                <button type="submit" class="btn btn-danger" id="del" data-toggle="del"
+                                    title="ลบข้อมูล"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -66,6 +73,7 @@
                 {{ $dayoff->links() }}
             </div>
         </div>
+        @endif
     </div>
 </div>
 
@@ -85,21 +93,21 @@
             }
         });
 
-        $(".BtnEdit").click(function(){
+        $(".BtnEdit").click(function () {
             $(".modalEdit").modal();
             var leave_id = $(this).data('id');
             var leave_name = $(this).data('name');
             var leave_num = $(this).data('num');
-            $(".modal-body #leave_id").val( leave_id );
-            $(".modal-body #leave_name").val( leave_name );
-            $(".modal-body #leave_num").val( leave_num );
+            $(".modal-body #leave_id").val(leave_id);
+            $(".modal-body #leave_name").val(leave_name);
+            $(".modal-body #leave_num").val(leave_num);
         });
     });
 
 </script>
 @endsection
 
-@section('modal') 
+@section('modal')
 <div class="modal fade" id="create" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -111,12 +119,14 @@
                 <form action="{{ route('dayoff-type.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label class="control-label" for="leave_name" style="font-weight:600;">{{ __('ชื่อประเภท') }}</label>
-                        <input type="text" class="form-control" id="leave_name" name="leave_name" placeholder="ชื่อประเภท"
-                            required>
+                        <label class="control-label" for="leave_name"
+                            style="font-weight:600;">{{ __('ชื่อประเภท') }}</label>
+                        <input type="text" class="form-control" id="leave_name" name="leave_name"
+                            placeholder="ชื่อประเภท" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="leave_num" style="font-weight:600;">{{ __('จำนวนวันลา') }}</label>
+                        <label class="control-label" for="leave_num"
+                            style="font-weight:600;">{{ __('จำนวนวันลา') }}</label>
                         <input type="text" class="form-control" id="leave_num" name="leave_num" placeholder="จำนวนวันลา"
                             required>
                     </div>
@@ -132,8 +142,8 @@
 
 
 <div class="modal fade modalEdit" id="modalEdit">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{{ __("แก้ไขข้อมูล") }}</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
@@ -156,7 +166,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
                 </div>
             </form>
-            </div>
         </div>
     </div>
+</div>
 @endsection
