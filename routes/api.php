@@ -21,14 +21,16 @@ Route::post('/district','ApiController@district');
 Route::post('/subdist','ApiController@subdist');
 
 Route::post('/amount','ApiController@amount');
-Route::post('/showDayoff','ApiController@showDayoff');
+Route::post('/not_allow','ApiController@notAllow');
+Route::post('/allow','ApiController@Allow');
+Route::post('/wait','ApiController@wait');
 Route::post('/add_leave','ApiController@addLeave');
 
-Route::post('/showTime','ApiController@showTime');
-Route::post('/showWork','ApiController@showWork');
 Route::post('/add_work','ApiController@addWork');
+Route::post('/showWork','ApiController@showWork');
 
 
+Route::post('/showTime','ApiController@showTime');
 Route::post('/add_in','ApiController@addIn');
 Route::post('/add_out','ApiController@addOut');
 

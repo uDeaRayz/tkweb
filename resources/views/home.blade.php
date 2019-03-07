@@ -81,7 +81,7 @@
                 </td>
                 <td class="text-center">{{ $attendance->time_in }}</td>
                 <td class="text-center">{{ $attendance->time_out }}</td>
-                <td class="text-center">{{ $attendance->atten_total }}</td>
+                <td class="text-center">{{ $attendance->atten_total/60 }}</td>
             </tr>
             @endforeach
         </tbody>

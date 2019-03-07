@@ -70,9 +70,9 @@ class DayoffController extends Controller
         $resson_com = DB::table('ressons')
             ->join('leaves', 'leaves.leave_id', '=', 'ressons.leave_id')
             ->where('leaves.leave_name',$amount->amount_leave)
-            ->first();
-
-        // Get ค่าจากตาราง Ressons ตามประเภทของการลา
+            ->first(); 
+ 
+        // Get ค่าจากตาราง Ressons ตามประเภทของการลา ใช้ตอนไม่อนุมัติการลา
         $resson = DB::table('ressons')
                 ->join('leaves', 'leaves.leave_id', '=', 'ressons.leave_id')
                 ->where('leaves.leave_name',$amount->amount_leave)

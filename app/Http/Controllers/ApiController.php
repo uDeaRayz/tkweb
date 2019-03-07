@@ -70,19 +70,24 @@ class ApiController extends Controller
             'date' => $date
         ]);
 
-        return response()->json($date, 200);
+        return response()->json($work, 200);
     }
 
     // Function แสดงข้อมูลบันทึกการทำงานนอกพื้นที่
     public function showWork(Request $request)
     {
-        $showWork = DB::table('works')->where('works.user_id',$request->user_id)->get();
+        $showWork = DB::table('works')
+            ->join('provinces', 'provinces.prov_id', '=', 'works.prov_id')
+            ->join('districts', 'districts.dist_id', '=', 'works.dist_id')
+            ->join('subdistricts', 'subdistricts.subdist_id', '=', 'works.subdist_id')
+            ->where('works.user_id',$request->user_id)->get();
         return response()->json($showWork, 200);
     }
 
     // Function บันทึกการลา
     public function addLeave(Request $request)
     {
+        // $test = $request;
         $addleave = AddLeave::create([
             'user_id' => $request['user_id'],
             'amount_id' => $request['leave_id'],
@@ -115,15 +120,56 @@ class ApiController extends Controller
             ->update(['amount_num'=>$total]);
         }
         
-        $leave =  AddLeave::where('add_id','=',$addleave->add_id)->first();
+        $leave =  AddLeave::where('add_id',$addleave->add_id)->first();
         return response()->json($leave, 200);
     }
 
     // Function แสดงข้อมูลบันทึกการลา
-    public function showDayoff(Request $request)
+
+    public function wait(Request $request)
     {
-        $showDayoff = DB::table('add_leaves')->where('add_leaves.user_id',$request->user_id)->get();
-        return response()->json($showDayoff, 200);
+
+        $data = DB::table('add_leaves')
+        ->join('users', 'users.id', '=', 'add_leaves.user_id')
+        ->join('amount_leaves','amount_leaves.amount_id','=','add_leaves.amount_id')
+        ->leftJoin('ressons','ressons.resson_id','add_leaves.resson_id')
+        ->where('add_leaves.user_id',$request->user_id)
+        ->where('add_leaves.status', 0)
+        ->orderBy('add_leaves.created_at', 'desc')
+        ->get();
+
+        return response()->json($data, 200);
+        
+    }
+    public function notAllow(Request $request)
+    {
+
+        $data = DB::table('add_leaves')
+        ->join('users', 'users.id', '=', 'add_leaves.user_id')
+        ->join('amount_leaves','amount_leaves.amount_id','=','add_leaves.amount_id')
+        ->leftJoin('ressons','ressons.resson_id','add_leaves.resson_id')
+        ->where('add_leaves.user_id',$request->user_id)
+        ->where('add_leaves.status', 2)
+        ->orderBy('add_leaves.created_at', 'desc')
+        ->get();
+
+        return response()->json($data, 200);
+        
+    }
+    public function Allow(Request $request)
+    {
+
+        $data = DB::table('add_leaves')
+        ->join('users', 'users.id', '=', 'add_leaves.user_id')
+        ->join('amount_leaves','amount_leaves.amount_id','=','add_leaves.amount_id')
+        ->leftJoin('ressons','ressons.resson_id','add_leaves.resson_id')
+        ->where('add_leaves.user_id',$request->user_id)
+        ->where('add_leaves.status', 1)
+        ->orderBy('add_leaves.created_at', 'desc')
+        ->get();
+
+        return response()->json($data, 200);
+        
     }
 
     // Function บันทึกการเข้าทำงาน
@@ -131,12 +177,17 @@ class ApiController extends Controller
     {
         $date = date('Y-m-d');
         $time = date('H:i:s');
-        $atten = Attendance::create([
-            'user_id' => $request['user_id'],
-            'atten_date' => $date,
-            'time_in' => $time,
-            'img_in' => $request['img'],
-        ]);
+
+        $qr = DB::table('qrcode')->where('qr_date',$date)->first();
+
+        if($request->qrcode == $qr->qr_id){
+            $atten = Attendance::create([
+                'user_id' => $request['user_id'],
+                'atten_date' => $date,
+                'time_in' => $time,
+                // 'img_in' => $request['img'],
+            ]);
+        }
         return response()->json($atten, 200);
     }
 
@@ -154,7 +205,11 @@ class ApiController extends Controller
                 'img_out' => $request['img_out'],
             ]);
         
-        $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(HOUR,time_in,time_out) as time'))->where('user_id','=',$request['user_id'])->first();    
+        $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(hour,time_in,time_out) as time'))
+        ->where('user_id','=',$request['user_id'])
+        ->where('attendances.atten_date', $date)
+        ->first();   
+        
  
         DB::table('attendances')
         ->where('attendances.user_id', $request['user_id'])
@@ -162,16 +217,21 @@ class ApiController extends Controller
         ->update([
             'atten_total' => $time_diff->time
         ]);
+
         $test_atten = Attendance::where('user_id',$request['user_id'])
                             ->where('attendances.atten_date', $date)
                             ->first();
 
-        return response()->json($test_atten, 200);
+        return response()->json($time_diff, 200);
     }
     
     // Function แสดงข้อมูลบันทึกการเข้าทำงาน
     public function showTime(Request $request){
-        $showTime = DB::table('attendances')->where('attendances.user_id',$request->user_id)->get();
+        $showTime = DB::table('attendances')
+            ->join('users', 'users.id', '=', 'attendances.user_id')
+            ->where('attendances.user_id',$request->user_id)
+            ->orderBy('attendances.atten_date', 'desc')
+            ->get();
         return response()->json($showTime, 200);
     }
 
@@ -191,11 +251,8 @@ class ApiController extends Controller
                 $uploadedFile,
                 $filename
             );
-
             $json['msg'] = 'hasFile';
-
         }
-
         $json['data'] = $filename;
 
         return response()->json($json, 200);

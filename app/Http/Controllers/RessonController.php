@@ -47,7 +47,7 @@ class RessonController extends Controller
     {
         $this->validation($request);
         Resson::create($request->all());
-        return redirect('resson')->with('add','เพิ่มตำแหน่งสำเร็จ');
+        return redirect('resson')->with('add','เพิ่มรายการสำเร็จ');
     } 
 
     public function validation($request)

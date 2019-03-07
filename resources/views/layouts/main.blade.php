@@ -71,7 +71,13 @@
                     </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li class="ul">
-                            <a href="{{ url('/dayoff') }}">รออนุมัติ</a>
+                            <a href="{{ url('/dayoff') }}">รออนุมัติ
+                                @if ($data > 0)
+                                <span class="badge badge-warning">
+                                    {{ $data }}
+                                </span>
+                                @endif
+                            </a>
                         </li>
                         <li class="ul">
                             <a href="{{ url('/allow') }}">ผ่านอนุมัติ</a>
