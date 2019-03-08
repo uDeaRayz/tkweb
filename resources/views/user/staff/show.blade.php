@@ -79,11 +79,8 @@
             @foreach ($amount as $item)
             <div class="col-md card" style="padding: 20px; margin:5px">
                 <div class="row" style="margin-bottom:5px;">
-                    <div class="col-md-2">
-                        <label for="leave_id" style="font-weight:600;">{{ __('ประเภท') }}</label>
-                    </div>
                     <div class="col-md">
-                        <p style="color: #111;">{{ $item->amount_leave }}</p>
+                        <label for="leave_id" style="font-weight:600;">{{ __('ประเภท:') }} {{ $item->amount_leave }}</label>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom:5px;">

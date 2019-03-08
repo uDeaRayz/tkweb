@@ -59,6 +59,8 @@ class ApiController extends Controller
     public function addWork(Request $request)
     {
         $date = date('Y-m-d');
+        $picture = $this->uploadFile($request);
+        $image = 'storage/img/'.$picture->original;
         $work = Work::create([
             'user_id' => $request['user_id'],
             'place' => $request['place_name'],
@@ -66,7 +68,7 @@ class ApiController extends Controller
             'dist_id' => $request['dist'],
             'subdist_id' => $request['subdist'],
             'detail' => $request['detail'],
-            'work_img' => $request['img'],
+            'work_img' => $image,
             'date' => $date
         ]);
 
@@ -87,6 +89,8 @@ class ApiController extends Controller
     // Function บันทึกการลา
     public function addLeave(Request $request)
     {
+        $picture = $this->uploadFile($request);
+        $image = 'storage/img/'.$picture->original;
         // $test = $request;
         $addleave = AddLeave::create([
             'user_id' => $request['user_id'],
@@ -95,7 +99,7 @@ class ApiController extends Controller
             'date_start' => $request['date_start'],
             'date_end' => $request['date_end'],
             'detail' => $request['detail'],
-            'img' => $request['img'],
+            'img' => $image,
             'status' => 0
         ]);
 
@@ -178,16 +182,36 @@ class ApiController extends Controller
         $date = date('Y-m-d');
         $time = date('H:i:s');
 
+        $long = substr($request->long,0,6);
+        $lat = substr($request->lat,0,6);
+
         $qr = DB::table('qrcode')->where('qr_date',$date)->first();
 
-        if($request->qrcode == $qr->qr_id){
-            $atten = Attendance::create([
-                'user_id' => $request['user_id'],
-                'atten_date' => $date,
-                'time_in' => $time,
-                // 'img_in' => $request['img'],
-            ]);
+        if (!$request->hasFile('picture')) {
+
+            if($request->qrcode == $qr->qr_id && $long == "98.998" && $lat == "18.769"){
+                $atten = Attendance::create([
+                    'user_id' => $request['user_id'],
+                    'atten_date' => $date,
+                    'time_in' => $time,
+                ]);
+            }
         }
+
+        if ($request->hasFile('picture')) {
+
+            $picture = $this->uploadFile($request);
+            $image = 'storage/img/'.$picture->original;
+            if($request->qrcode == $qr->qr_id && $long == "98.998" && $lat == "18.769"){
+                $atten = Attendance::create([
+                    'user_id' => $request['user_id'],
+                    'atten_date' => $date,
+                    'time_in' => $time,
+                    'img_in' =>  $image,
+                ]);
+            }
+        }
+        
         return response()->json($atten, 200);
     }
 
@@ -197,12 +221,14 @@ class ApiController extends Controller
         $date = date('Y-m-d');
         $time = date('H:i:s');
 
+        $picture = $this->uploadFile($request);
+        $image= 'storage/img/'.$picture->original;
         DB::table('attendances')
             ->where('attendances.user_id', $request['user_id'])
             ->where('attendances.atten_date', $date)
             ->update([
                 'time_out' => $time,
-                'img_out' => $request['img_out'],
+                'img_out' => $image,
             ]);
         
         $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(hour,time_in,time_out) as time'))
@@ -238,7 +264,6 @@ class ApiController extends Controller
     // Function บันทึกรูป
     function uploadFile(Request $request)
     {
-        $json['msg'] = 'Not';
         $filename = '';
 
         if ($request->hasFile('picture')) {
@@ -251,11 +276,10 @@ class ApiController extends Controller
                 $uploadedFile,
                 $filename
             );
-            $json['msg'] = 'hasFile';
         }
-        $json['data'] = $filename;
+        $filename;
 
-        return response()->json($json, 200);
+        return response()->json($filename, 200);
     }
 
 }

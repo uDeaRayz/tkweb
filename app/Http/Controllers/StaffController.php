@@ -121,9 +121,10 @@ class StaffController extends Controller
         ->join('positions', 'users.position', '=', 'positions.post_id')
         ->where('users.id', '=', $id)->first();
 
-        $amount = DB::table('users')
-        ->join('amount_leaves', 'users.id', '=', 'amount_leaves.user_id')
-        ->where('users.id', '=', $id)->get();
+        $amount = DB::table('amount_leaves')
+        ->where('user_id', '=', $id)->get();
+
+        // dd($amount);
         $data = AddLeave::all()->where('status',0)->COUNT('status');
         return view('user.staff.show' ,compact('staff','amount','data'));
     }

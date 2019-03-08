@@ -37,6 +37,7 @@ Route::post('/add_out','ApiController@addOut');
 
 
 Route::post('/upload_file', 'ApiController@uploadFile');
+Route::post('/img', 'ApiController@img');
 
 
 // อัพเดรตวันลาคเหลือ
