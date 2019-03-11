@@ -61,16 +61,32 @@ class ApiController extends Controller
         $date = date('Y-m-d');
         $picture = $this->uploadFile($request);
         $image = 'storage/img/'.$picture->original;
-        $work = Work::create([
-            'user_id' => $request['user_id'],
-            'place' => $request['place_name'],
-            'prov_id' => $request['province'],
-            'dist_id' => $request['dist'],
-            'subdist_id' => $request['subdist'],
-            'detail' => $request['detail'],
-            'work_img' => $image,
-            'date' => $date
-        ]);
+
+        if (!$request->hasFile('picture')) {
+            $work = Work::create([
+                'user_id' => $request['user_id'],
+                'place' => $request['place_name'],
+                'prov_id' => $request['province'],
+                'dist_id' => $request['dist'],
+                'subdist_id' => $request['subdist'],
+                'detail' => $request['detail'],
+                'date' => $date
+            ]);
+        }
+
+        if ($request->hasFile('picture')) {
+            $work = Work::create([
+                'user_id' => $request['user_id'],
+                'place' => $request['place_name'],
+                'prov_id' => $request['province'],
+                'dist_id' => $request['dist'],
+                'subdist_id' => $request['subdist'],
+                'detail' => $request['detail'],
+                'work_img' => $image,
+                'date' => $date
+            ]);
+        }
+       
 
         return response()->json($work, 200);
     }
@@ -92,39 +108,77 @@ class ApiController extends Controller
         $picture = $this->uploadFile($request);
         $image = 'storage/img/'.$picture->original;
         // $test = $request;
-        $addleave = AddLeave::create([
-            'user_id' => $request['user_id'],
-            'amount_id' => $request['leave_id'],
-            'add_type' => $request['type'],
-            'date_start' => $request['date_start'],
-            'date_end' => $request['date_end'],
-            'detail' => $request['detail'],
-            'img' => $image,
-            'status' => 0
-        ]);
 
-        $amount = AmountLeave::where('amount_id','=' ,$request['leave_id'])->first();
-        if ($request->type == 1 or 2) {
+        if ($request->hasFile('picture')) {
 
-            $tt=DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>0.5]);
-
-            $total = $amount->amount_num - 0.5;
-            DB::table('amount_leaves')->where('amount_id','=',$request['leave_id'])->update(['amount_num'=>$total]);
+            $addleave = AddLeave::create([
+                'user_id' => $request['user_id'],
+                'amount_id' => $request['leave_id'],
+                'add_type' => $request['type'],
+                'date_start' => $request['date_start'],
+                'date_end' => $request['date_end'],
+                'detail' => $request['detail'],
+                'img' => $image,
+                'status' => 0
+            ]);
+    
+            $amount = AmountLeave::where('amount_id','=' ,$request['leave_id'])->first();
+            if ($request->type == 1 or 2) {
+    
+                $tt=DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>0.5]);
+    
+                $total = $amount->amount_num - 0.5;
+                DB::table('amount_leaves')->where('amount_id','=',$request['leave_id'])->update(['amount_num'=>$total]);
+            }
+            if ($request->type == 3) {
+    
+                $diff = AddLeave::select(DB::raw('DATEDIFF(date_end,date_start) as days'))->where('add_id','=',$addleave->add_id)->first();
+                $value = $diff->days + 1;
+    
+                DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>$value]);
+    
+                $total = $amount->amount_num - $value;
+                DB::table('amount_leaves')
+                ->where('amount_id','=',$request['leave_id'])
+                ->update(['amount_num'=>$total]);
+            }
+            $leave =  AddLeave::where('add_id',$addleave->add_id)->first();
         }
-        if ($request->type == 3) {
+        if (!$request->hasFile('picture')) {
 
-            $diff = AddLeave::select(DB::raw('DATEDIFF(date_end,date_start) as days'))->where('add_id','=',$addleave->add_id)->first();
-            $value = $diff->days + 1;
-
-            DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>$value]);
-
-            $total = $amount->amount_num - $value;
-            DB::table('amount_leaves')
-            ->where('amount_id','=',$request['leave_id'])
-            ->update(['amount_num'=>$total]);
+            $addleave = AddLeave::create([
+                'user_id' => $request['user_id'],
+                'amount_id' => $request['leave_id'],
+                'add_type' => $request['type'],
+                'date_start' => $request['date_start'],
+                'date_end' => $request['date_end'],
+                'detail' => $request['detail'],
+                'status' => 0
+            ]);
+    
+            $amount = AmountLeave::where('amount_id','=' ,$request['leave_id'])->first();
+            if ($request->type == 1 or 2) {
+    
+                $tt=DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>0.5]);
+    
+                $total = $amount->amount_num - 0.5;
+                DB::table('amount_leaves')->where('amount_id','=',$request['leave_id'])->update(['amount_num'=>$total]);
+            }
+            if ($request->type == 3) {
+    
+                $diff = AddLeave::select(DB::raw('DATEDIFF(date_end,date_start) as days'))->where('add_id','=',$addleave->add_id)->first();
+                $value = $diff->days + 1;
+    
+                DB::table('add_leaves')->where('add_id','=',$addleave->add_id)->update(['total'=>$value]);
+    
+                $total = $amount->amount_num - $value;
+                DB::table('amount_leaves')
+                ->where('amount_id','=',$request['leave_id'])
+                ->update(['amount_num'=>$total]);
+            }
+            $leave =  AddLeave::where('add_id',$addleave->add_id)->first();
         }
-        
-        $leave =  AddLeave::where('add_id',$addleave->add_id)->first();
+
         return response()->json($leave, 200);
     }
 
@@ -145,6 +199,7 @@ class ApiController extends Controller
         return response()->json($data, 200);
         
     }
+
     public function notAllow(Request $request)
     {
 
@@ -160,6 +215,7 @@ class ApiController extends Controller
         return response()->json($data, 200);
         
     }
+    
     public function Allow(Request $request)
     {
 
@@ -223,31 +279,60 @@ class ApiController extends Controller
 
         $picture = $this->uploadFile($request);
         $image= 'storage/img/'.$picture->original;
-        DB::table('attendances')
+        if ($request->hasFile('picture')) {
+            DB::table('attendances')
+                ->where('attendances.user_id', $request['user_id'])
+                ->where('attendances.atten_date', $date)
+                ->update([
+                    'time_out' => $time,
+                    'img_out' => $image,
+                ]);
+            
+            $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(hour,time_in,time_out) as time'))
+            ->where('user_id','=',$request['user_id'])
+            ->where('attendances.atten_date', $date)
+            ->first();   
+            
+     
+            DB::table('attendances')
             ->where('attendances.user_id', $request['user_id'])
             ->where('attendances.atten_date', $date)
             ->update([
-                'time_out' => $time,
-                'img_out' => $image,
+                'atten_total' => $time_diff->time
             ]);
-        
-        $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(hour,time_in,time_out) as time'))
-        ->where('user_id','=',$request['user_id'])
-        ->where('attendances.atten_date', $date)
-        ->first();   
-        
- 
-        DB::table('attendances')
-        ->where('attendances.user_id', $request['user_id'])
-        ->where('attendances.atten_date', $date)
-        ->update([
-            'atten_total' => $time_diff->time
-        ]);
+    
+            $test_atten = Attendance::where('user_id',$request['user_id'])
+                                ->where('attendances.atten_date', $date)
+                                ->first();
 
-        $test_atten = Attendance::where('user_id',$request['user_id'])
-                            ->where('attendances.atten_date', $date)
-                            ->first();
+        }
+        if (!$request->hasFile('picture')) {
+            DB::table('attendances')
+                ->where('attendances.user_id', $request['user_id'])
+                ->where('attendances.atten_date', $date)
+                ->update([
+                    'time_out' => $time,
+                ]);
+            
+            $time_diff = Attendance::select(DB::raw('TIMESTAMPDIFF(hour,time_in,time_out) as time'))
+            ->where('user_id','=',$request['user_id'])
+            ->where('attendances.atten_date', $date)
+            ->first();   
+            
+     
+            DB::table('attendances')
+            ->where('attendances.user_id', $request['user_id'])
+            ->where('attendances.atten_date', $date)
+            ->update([
+                'atten_total' => $time_diff->time
+            ]);
+    
+            $test_atten = Attendance::where('user_id',$request['user_id'])
+                                ->where('attendances.atten_date', $date)
+                                ->first();
 
+        }
+        
         return response()->json($time_diff, 200);
     }
     
