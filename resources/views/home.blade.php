@@ -47,7 +47,7 @@
 </div>
 <br>
 <br>
-@if (count($atten) === 0)
+@if (count($atten) == 0)
 <div class="text-center">
     <span style="font-size:18pt; font-weight:700;">{{ __('ไม่พบข้อมูล') }}</span>
 </div>

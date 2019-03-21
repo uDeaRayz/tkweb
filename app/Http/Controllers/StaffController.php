@@ -129,12 +129,7 @@ class StaffController extends Controller
         return view('user.staff.show' ,compact('staff','amount','data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($id)
     {
         $position = Position::all();

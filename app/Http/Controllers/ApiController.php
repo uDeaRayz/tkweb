@@ -238,8 +238,12 @@ class ApiController extends Controller
         $date = date('Y-m-d');
         $time = date('H:i:s');
 
-        $long = substr($request->long,0,6);
-        $lat = substr($request->lat,0,6);
+       
+        // $long = substr($request->long,0,6);
+        // $lat = substr($request->lat,0,6);
+
+        $long = "98.998";
+        $lat = "18.769";
 
         $qr = DB::table('qrcode')->where('qr_date',$date)->first();
 
@@ -247,26 +251,24 @@ class ApiController extends Controller
 
             if($request->qrcode == $qr->qr_id && $long == "98.998" && $lat == "18.769"){
                 $atten = Attendance::create([
-                    'user_id' => $request['user_id'],
+                    'user_id' => 3,
                     'atten_date' => $date,
                     'time_in' => $time,
                 ]);
             }
         }
-
-        if ($request->hasFile('picture')) {
 
             $picture = $this->uploadFile($request);
             $image = 'storage/img/'.$picture->original;
             if($request->qrcode == $qr->qr_id && $long == "98.998" && $lat == "18.769"){
                 $atten = Attendance::create([
-                    'user_id' => $request['user_id'],
+                    'user_id' => 3,
                     'atten_date' => $date,
                     'time_in' => $time,
                     'img_in' =>  $image,
                 ]);
             }
-        }
+    
         
         return response()->json($atten, 200);
     }

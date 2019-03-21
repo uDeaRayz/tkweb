@@ -36,6 +36,7 @@ class HomeController extends Controller
             ->join('users', 'users.id', '=', 'attendances.user_id')
             ->where('attendances.atten_date',$date)
             ->get();
+            
         return view('home',compact('data','staff','trainee','atten'));
     }
 }
