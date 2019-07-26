@@ -15,7 +15,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="text-center">วันที่</th>
+                <th class="text-center" style="width:150px;">วันที่</th>
                 <th class="text-center">ชื่อ-สกุล</th>
                 <th class="text-center">สถานที่</th>
                 <th class="text-center">รายละเอียด</th>
@@ -39,7 +39,8 @@
                     {{ $works->fname }} {{ $works->lname }}
                 </td>
                 <td class="text-justify" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">
-                    {{ $works->place }} <b>ตำบล</b>{{ $works->subdist_name }} <b>อำเภอ</b>{{ $works->dist_name }}
+                    <b>{{ $works->place }}</b>
+                    <b>ตำบล</b>{{ $works->subdist_name }} <b>อำเภอ</b>{{ $works->dist_name }}
                     <b>จังหวัด</b>{{ $works->prov_name }}</td>
                 <td class="text-justify" style="word-wrap: break-word;min-width: 160px;max-width: 250px;">
                     {{ $works->detail }}</td>

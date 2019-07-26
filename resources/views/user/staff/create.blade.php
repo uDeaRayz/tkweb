@@ -87,7 +87,7 @@
                     @endif
                 </div>
                 <div class="col-md-2">
-                    <p class="text-dark">{{ __('เบอร์โทร') }}</p>
+                    <p class="text-dark">{{ __('เบอร์โทร') }}*</p>
                 </div>
                 <div class="col-md">
                     <input type="text" name="phone" class="form-control ">
@@ -106,7 +106,7 @@
                     <input type="text" name="line" class="form-control">
                 </div>
                 <div class="col-md-2">
-                    <p class="text-dark">{{ __('Email') }}</p>
+                    <p class="text-dark">{{ __('Email') }}*</p>
                 </div>
                 <div class="col-md">
                     <input type="email" name="email"

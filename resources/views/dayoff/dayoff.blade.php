@@ -1,8 +1,8 @@
 @extends('layouts.main')
-@section('title', 'การลา')
+@section('title', 'ประเภทการลา')
 
 @section('subtitle')
-<h2 class=" text-primary"><i class="fas fa-calendar-day"></i> การลา</h2>
+<h2 class=" text-primary"><i class="fas fa-calendar-day"></i> ประเภทการลา</h2>
 @endsection
 
 @section('content')
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">บันทึก</button>
+                    <button type="submit" class="btn btn-success">บันทึก</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
                 </div>
             </form>
